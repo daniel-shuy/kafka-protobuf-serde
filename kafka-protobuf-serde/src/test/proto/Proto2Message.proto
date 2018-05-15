@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+package com.github.daniel.shuy.kafka.protobuf.serde;
+
+option java_multiple_files = true;
+option java_outer_classname = "Proto2MessageProto";
+
+message Proto2Message {
+    required string str = 1;
+    required bool boolean = 2;
+    required int64 int = 3;
+    required double dbl = 4;
+}

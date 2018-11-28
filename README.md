@@ -17,6 +17,20 @@ Add the following to your Maven dependency list:
     <version>1.0.0</version>
 </dependency>
 ```
+Override the `kafka-client` dependency version with the version of Kafka you wish to use:
+```
+<dependency>
+    <groupId>org.apache.kafka</groupId>
+    <artifactId>kafka-clients</artifactId>
+    <version>1.1.1</version>
+</dependency>
+```
+Override the `protobuf.version` property with the version of Protobuf you wish to use (**WARNING:** do not directly override the `protobuf-java` dependency version):
+```
+<properties>
+    <protobuf.version>3.6.1</protobuf.version>
+</properties>
+```
 
 ### Kafka Producer
 ```java

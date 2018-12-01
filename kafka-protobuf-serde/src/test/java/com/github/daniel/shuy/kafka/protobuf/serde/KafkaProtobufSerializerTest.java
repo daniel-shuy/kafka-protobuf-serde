@@ -3,17 +3,9 @@ package com.github.daniel.shuy.kafka.protobuf.serde;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.MessageLite;
 import com.google.protobuf.Parser;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.KafkaException;
@@ -25,20 +17,26 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 import org.springframework.kafka.listener.MessageListener;
 import org.springframework.kafka.listener.MessageListenerContainer;
-import org.springframework.kafka.listener.config.ContainerProperties;
+import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
-import org.springframework.kafka.test.rule.KafkaEmbedded;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
+import org.springframework.kafka.test.utils.KafkaTestUtils;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @RunWith(SpringRunner.class)
 @EmbeddedKafka(controlledShutdown = true, topics = KafkaProtobufSerializerTest.TOPIC)
@@ -52,8 +50,8 @@ public class KafkaProtobufSerializerTest {
     @Configuration
     static class ContextConfiguration {
 
-        @Value("${" + KafkaEmbedded.SPRING_EMBEDDED_KAFKA_BROKERS + "}")
-        private String kafkaBrokerAddresses;
+        @Autowired
+        private EmbeddedKafkaBroker embeddedKafka;
 
         @Bean
         public BlockingQueue<ConsumerRecord<byte[], byte[]>> blockingQueue() {
@@ -62,9 +60,8 @@ public class KafkaProtobufSerializerTest {
 
         @Bean
         public MessageListenerContainer messageListenerContainer() {
-            Map<String, Object> consumerProps = new HashMap<>();
-            consumerProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBrokerAddresses);
-            consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, KAFKA_CONSUMER_GROUP_ID);
+            Map<String, Object> consumerProps = KafkaTestUtils.consumerProps(
+                    KAFKA_CONSUMER_GROUP_ID, Boolean.FALSE.toString(), embeddedKafka);
 
             ConsumerFactory<byte[], byte[]> consumerFactory = new DefaultKafkaConsumerFactory<>(
                     consumerProps,
@@ -85,10 +82,7 @@ public class KafkaProtobufSerializerTest {
     }
 
     @Autowired
-    private KafkaEmbedded embeddedKafka;
-
-    @Value("${" + KafkaEmbedded.SPRING_EMBEDDED_KAFKA_BROKERS + "}")
-    private String kafkaBrokerAddresses;
+    private EmbeddedKafkaBroker embeddedKafka;
 
     @Autowired
     private BlockingQueue<ConsumerRecord<byte[], byte[]>> records;
@@ -110,8 +104,7 @@ public class KafkaProtobufSerializerTest {
 
     private <MessageType extends MessageLite> void serialize(
             MessageType input, Parser<MessageType> parser) throws InvalidProtocolBufferException {
-        Map<String, Object> producerProps = new HashMap<>();
-        producerProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBrokerAddresses);
+        Map<String, Object> producerProps = KafkaTestUtils.producerProps(embeddedKafka);
 
         Serializer<MessageType> serializer = new KafkaProtobufSerializer<>();
 

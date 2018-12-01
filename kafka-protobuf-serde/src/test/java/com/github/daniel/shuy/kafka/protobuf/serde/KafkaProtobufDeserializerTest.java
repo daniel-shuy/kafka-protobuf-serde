@@ -2,14 +2,7 @@ package com.github.daniel.shuy.kafka.protobuf.serde;
 
 import com.google.protobuf.MessageLite;
 import com.google.protobuf.Parser;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.LinkedBlockingQueue;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.KafkaException;
 import org.apache.kafka.common.serialization.ByteArraySerializer;
@@ -18,25 +11,26 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.core.ConsumerFactory;
-import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.core.*;
+import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 import org.springframework.kafka.listener.MessageListener;
 import org.springframework.kafka.listener.MessageListenerContainer;
-import org.springframework.kafka.listener.config.ContainerProperties;
 import org.springframework.kafka.support.SendResult;
+import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
-import org.springframework.kafka.test.rule.KafkaEmbedded;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
+import org.springframework.kafka.test.utils.KafkaTestUtils;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.concurrent.ListenableFuture;
+
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @RunWith(SpringRunner.class)
 @EmbeddedKafka(controlledShutdown = true, topics = KafkaProtobufDeserializerTest.TOPIC)
@@ -48,13 +42,12 @@ public class KafkaProtobufDeserializerTest {
     @Configuration
     static class ContextConfiguration {
 
-        @Value("${" + KafkaEmbedded.SPRING_EMBEDDED_KAFKA_BROKERS + "}")
-        private String kafkaBrokerAddresses;
+        @Autowired
+        private EmbeddedKafkaBroker embeddedKafka;
 
         @Bean
         public ProducerFactory<byte[], byte[]> producerFactory() {
-            Map<String, Object> producerProps = new HashMap<>();
-            producerProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBrokerAddresses);
+            Map<String, Object> producerProps = KafkaTestUtils.producerProps(embeddedKafka);
 
             return new DefaultKafkaProducerFactory(producerProps,
                     new ByteArraySerializer(),
@@ -70,10 +63,7 @@ public class KafkaProtobufDeserializerTest {
     }
 
     @Autowired
-    private KafkaEmbedded embeddedKafka;
-
-    @Value("${" + KafkaEmbedded.SPRING_EMBEDDED_KAFKA_BROKERS + "}")
-    private String kafkaBrokerAddresses;
+    private EmbeddedKafkaBroker embeddedKafka;
 
     @Autowired
     private KafkaTemplate<byte[], byte[]> template;
@@ -83,9 +73,8 @@ public class KafkaProtobufDeserializerTest {
             String kafkaConsumerGroupId) throws Exception {
         Deserializer<MessageType> deserializer = new KafkaProtobufDeserializer<>(parser);
 
-        Map<String, Object> consumerProps = new HashMap<>();
-        consumerProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBrokerAddresses);
-        consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaConsumerGroupId);
+        Map<String, Object> consumerProps = KafkaTestUtils.consumerProps(
+                kafkaConsumerGroupId, Boolean.FALSE.toString(), embeddedKafka);
 
         ConsumerFactory<MessageType, MessageType> consumerFactory = new DefaultKafkaConsumerFactory<>(
                 consumerProps,

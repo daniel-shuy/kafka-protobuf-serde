@@ -89,7 +89,7 @@ public class KafkaProtobufSerializerTest {
     private MessageListenerContainer container;
 
     @Before
-    public void before() throws Exception {
+    public void before() {
         container.start();
 
         ContainerTestUtils.waitForAssignment(container, embeddedKafka.getPartitionsPerTopic());

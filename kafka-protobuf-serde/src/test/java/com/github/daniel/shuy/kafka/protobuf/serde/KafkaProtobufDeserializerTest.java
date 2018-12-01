@@ -70,7 +70,7 @@ public class KafkaProtobufDeserializerTest {
 
     private <MessageType extends MessageLite> void deserialize(
             MessageType input, Parser<MessageType> parser,
-            String kafkaConsumerGroupId) throws Exception {
+            String kafkaConsumerGroupId) {
         Deserializer<MessageType> deserializer = new KafkaProtobufDeserializer<>(parser);
 
         Map<String, Object> consumerProps = KafkaTestUtils.consumerProps(
@@ -124,7 +124,7 @@ public class KafkaProtobufDeserializerTest {
     }
 
     @Test(timeout = 10000)
-    public void deserializeProto2() throws Exception {
+    public void deserializeProto2() {
         Proto2Message message = Proto2Message.newBuilder()
                 .setStr("Hello World")
                 .setBoolean(true)
@@ -135,7 +135,7 @@ public class KafkaProtobufDeserializerTest {
     }
 
     @Test(timeout = 10000)
-    public void deserializeProto3() throws Exception {
+    public void deserializeProto3() {
         Proto3Message message = Proto3Message.newBuilder()
                 .setStr("Goodbye World")
                 .setBoolean(false)

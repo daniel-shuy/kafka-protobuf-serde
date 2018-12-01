@@ -49,14 +49,14 @@ public class KafkaProtobufDeserializerTest {
         public ProducerFactory<byte[], byte[]> producerFactory() {
             Map<String, Object> producerProps = KafkaTestUtils.producerProps(embeddedKafka);
 
-            return new DefaultKafkaProducerFactory(producerProps,
+            return new DefaultKafkaProducerFactory<>(producerProps,
                     new ByteArraySerializer(),
                     new ByteArraySerializer());
         }
 
         @Bean
         public KafkaTemplate<byte[], byte[]> kafkaTemplate() {
-            return new KafkaTemplate(
+            return new KafkaTemplate<>(
                     producerFactory(),
                     true);
         }
@@ -87,7 +87,7 @@ public class KafkaProtobufDeserializerTest {
             records.add(record);
         });
 
-        MessageListenerContainer container = new KafkaMessageListenerContainer(
+        MessageListenerContainer container = new KafkaMessageListenerContainer<>(
                 consumerFactory,
                 containerProps);
 

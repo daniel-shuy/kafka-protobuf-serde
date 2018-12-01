@@ -75,7 +75,7 @@ public class KafkaProtobufSerializerTest {
                 records.add(record);
             });
 
-            return new KafkaMessageListenerContainer(
+            return new KafkaMessageListenerContainer<>(
                     consumerFactory,
                     containerProps);
         }

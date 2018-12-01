@@ -54,12 +54,12 @@ public class KafkaProtobufSerializerTest {
         private EmbeddedKafkaBroker embeddedKafka;
 
         @Bean
-        public BlockingQueue<ConsumerRecord<byte[], byte[]>> blockingQueue() {
+        BlockingQueue<ConsumerRecord<byte[], byte[]>> blockingQueue() {
             return new LinkedBlockingQueue<>();
         }
 
         @Bean
-        public MessageListenerContainer messageListenerContainer() {
+        MessageListenerContainer messageListenerContainer() {
             Map<String, Object> consumerProps = KafkaTestUtils.consumerProps(
                     KAFKA_CONSUMER_GROUP_ID, Boolean.FALSE.toString(), embeddedKafka);
 

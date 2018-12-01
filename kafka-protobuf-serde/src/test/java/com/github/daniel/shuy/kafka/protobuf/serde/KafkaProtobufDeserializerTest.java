@@ -46,7 +46,7 @@ public class KafkaProtobufDeserializerTest {
         private EmbeddedKafkaBroker embeddedKafka;
 
         @Bean
-        public ProducerFactory<byte[], byte[]> producerFactory() {
+        ProducerFactory<byte[], byte[]> producerFactory() {
             Map<String, Object> producerProps = KafkaTestUtils.producerProps(embeddedKafka);
 
             return new DefaultKafkaProducerFactory<>(producerProps,
@@ -55,7 +55,7 @@ public class KafkaProtobufDeserializerTest {
         }
 
         @Bean
-        public KafkaTemplate<byte[], byte[]> kafkaTemplate() {
+        KafkaTemplate<byte[], byte[]> kafkaTemplate() {
             return new KafkaTemplate<>(
                     producerFactory(),
                     true);

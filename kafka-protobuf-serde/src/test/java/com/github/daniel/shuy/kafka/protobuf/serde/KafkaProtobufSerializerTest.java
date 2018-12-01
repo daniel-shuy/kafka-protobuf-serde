@@ -71,9 +71,7 @@ public class KafkaProtobufSerializerTest {
             BlockingQueue<ConsumerRecord<byte[], byte[]>> records = blockingQueue();
 
             ContainerProperties containerProps = new ContainerProperties(TOPIC);
-            containerProps.setMessageListener((MessageListener<byte[], byte[]>) (ConsumerRecord<byte[], byte[]> record) -> {
-                records.add(record);
-            });
+            containerProps.setMessageListener((MessageListener<byte[], byte[]>) records::add);
 
             return new KafkaMessageListenerContainer<>(
                     consumerFactory,

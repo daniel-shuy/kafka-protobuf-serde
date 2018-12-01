@@ -83,9 +83,7 @@ public class KafkaProtobufDeserializerTest {
         BlockingQueue<ConsumerRecord<MessageType, MessageType>> records = new LinkedBlockingQueue<>();
 
         ContainerProperties containerProps = new ContainerProperties(TOPIC);
-        containerProps.setMessageListener((MessageListener<MessageType, MessageType>) (ConsumerRecord<MessageType, MessageType> record) -> {
-            records.add(record);
-        });
+        containerProps.setMessageListener((MessageListener<MessageType, MessageType>) records::add);
 
         MessageListenerContainer container = new KafkaMessageListenerContainer<>(
                 consumerFactory,

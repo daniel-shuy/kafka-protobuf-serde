@@ -87,38 +87,33 @@ public class KafkaProtobufDeserializerTest {
         MessageListenerContainer container = new KafkaMessageListenerContainer<>(
                 consumerFactory,
                 containerProps);
+        container.start();
+        ContainerTestUtils.waitForAssignment(container, embeddedKafka.getPartitionsPerTopic());
+
+        byte[] data = input.toByteArray();
+        ProducerRecord<byte[], byte[]> producerRecord = new ProducerRecord<>(topic, data, data);
+        ListenableFuture<SendResult<byte[], byte[]>> producerFuture = template.send(producerRecord);
 
         try {
-            container.start();
-            ContainerTestUtils.waitForAssignment(container, embeddedKafka.getPartitionsPerTopic());
-
-            byte[] data = input.toByteArray();
-            ProducerRecord<byte[], byte[]> producerRecord = new ProducerRecord<>(topic, data, data);
-            ListenableFuture<SendResult<byte[], byte[]>> producerFuture = template.send(producerRecord);
-
-            try {
-                producerFuture.get();
-            } catch (InterruptedException e) {
-                return;
-            } catch (ExecutionException e) {
-                throw new KafkaException("Error sending message to Kafka.", e.getCause());
-            }
-
-            ConsumerRecord<MessageType, MessageType> consumerRecord;
-            try {
-                consumerRecord = records.take();
-            } catch (InterruptedException e) {
-                return;
-            }
-
-            MessageType key = consumerRecord.key();
-            Assert.assertEquals(key, input);
-
-            MessageType value = consumerRecord.value();
-            Assert.assertEquals(value, input);
-        } finally {
-            container.stop();
+            producerFuture.get();
+        } catch (InterruptedException e) {
+            return;
+        } catch (ExecutionException e) {
+            throw new KafkaException("Error sending message to Kafka.", e.getCause());
         }
+
+        ConsumerRecord<MessageType, MessageType> consumerRecord;
+        try {
+            consumerRecord = records.take();
+        } catch (InterruptedException e) {
+            return;
+        }
+
+        MessageType key = consumerRecord.key();
+        Assert.assertEquals(key, input);
+
+        MessageType value = consumerRecord.value();
+        Assert.assertEquals(value, input);
     }
 
     @Test(timeout = 10000)

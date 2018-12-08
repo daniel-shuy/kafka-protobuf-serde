@@ -63,44 +63,39 @@ public class KafkaProtobufSerializerTest {
         MessageListenerContainer container = new KafkaMessageListenerContainer<>(
                 consumerFactory,
                 containerProps);
+        container.start();
+        ContainerTestUtils.waitForAssignment(container, embeddedKafka.getPartitionsPerTopic());
 
-        try {
-            container.start();
-            ContainerTestUtils.waitForAssignment(container, embeddedKafka.getPartitionsPerTopic());
-
-            Map<String, Object> producerProps = KafkaTestUtils.producerProps(embeddedKafka);
-            Serializer<MessageType> serializer = new KafkaProtobufSerializer<>();
-            try (Producer<MessageType, MessageType> producer = new KafkaProducer<>(
-                    producerProps,
-                    serializer,
-                    serializer)) {
-                Future<RecordMetadata> future = producer.send(new ProducerRecord<>(topic, input, input));
-                try {
-                    future.get();
-                } catch (InterruptedException e) {
-                    return;
-                } catch (ExecutionException e) {
-                    throw new KafkaException("Error sending message to Kafka.", e.getCause());
-                }
-            }
-
-            ConsumerRecord<byte[], byte[]> consumerRecord;
+        Map<String, Object> producerProps = KafkaTestUtils.producerProps(embeddedKafka);
+        Serializer<MessageType> serializer = new KafkaProtobufSerializer<>();
+        try (Producer<MessageType, MessageType> producer = new KafkaProducer<>(
+                producerProps,
+                serializer,
+                serializer)) {
+            Future<RecordMetadata> future = producer.send(new ProducerRecord<>(topic, input, input));
             try {
-                consumerRecord = records.take();
+                future.get();
             } catch (InterruptedException e) {
                 return;
+            } catch (ExecutionException e) {
+                throw new KafkaException("Error sending message to Kafka.", e.getCause());
             }
-
-            byte[] outputKeyData = consumerRecord.key();
-            MessageType outputKey = parser.parseFrom(outputKeyData);
-            Assert.assertEquals(outputKey, input);
-
-            byte[] outputValueData = consumerRecord.value();
-            MessageType outputValue = parser.parseFrom(outputValueData);
-            Assert.assertEquals(outputValue, input);
-        } finally {
-            container.stop();
         }
+
+        ConsumerRecord<byte[], byte[]> consumerRecord;
+        try {
+            consumerRecord = records.take();
+        } catch (InterruptedException e) {
+            return;
+        }
+
+        byte[] outputKeyData = consumerRecord.key();
+        MessageType outputKey = parser.parseFrom(outputKeyData);
+        Assert.assertEquals(outputKey, input);
+
+        byte[] outputValueData = consumerRecord.value();
+        MessageType outputValue = parser.parseFrom(outputValueData);
+        Assert.assertEquals(outputValue, input);
     }
 
     @Test(timeout = 10000)

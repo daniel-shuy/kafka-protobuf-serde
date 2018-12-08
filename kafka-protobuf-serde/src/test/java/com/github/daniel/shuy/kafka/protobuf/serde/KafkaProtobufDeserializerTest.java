@@ -23,21 +23,18 @@ import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 @RunWith(SpringRunner.class)
-@EmbeddedKafka(controlledShutdown = true, topics = KafkaProtobufDeserializerTest.TOPIC)
-@DirtiesContext
+@EmbeddedKafka(controlledShutdown = true)
 public class KafkaProtobufDeserializerTest {
-
-    static final String TOPIC = "topic";
 
     @Configuration
     static class ContextConfiguration {
@@ -69,20 +66,22 @@ public class KafkaProtobufDeserializerTest {
     private KafkaTemplate<byte[], byte[]> template;
 
     private <MessageType extends MessageLite> void deserialize(
-            MessageType input, Parser<MessageType> parser,
-            String kafkaConsumerGroupId) {
+            MessageType input, Parser<MessageType> parser) {
+        // generate a random UUID to create a unique topic and consumer group id for each test
+        String uuid = UUID.randomUUID().toString();
+        String topic = "topic-" + uuid;
+
+        embeddedKafka.addTopics(topic);
+
         Deserializer<MessageType> deserializer = new KafkaProtobufDeserializer<>(parser);
-
         Map<String, Object> consumerProps = KafkaTestUtils.consumerProps(
-                kafkaConsumerGroupId, Boolean.FALSE.toString(), embeddedKafka);
-
+                uuid, Boolean.FALSE.toString(), embeddedKafka);
         ConsumerFactory<MessageType, MessageType> consumerFactory = new DefaultKafkaConsumerFactory<>(
                 consumerProps,
                 deserializer, deserializer);
 
         BlockingQueue<ConsumerRecord<MessageType, MessageType>> records = new LinkedBlockingQueue<>();
-
-        ContainerProperties containerProps = new ContainerProperties(TOPIC);
+        ContainerProperties containerProps = new ContainerProperties(topic);
         containerProps.setMessageListener((MessageListener<MessageType, MessageType>) records::add);
 
         MessageListenerContainer container = new KafkaMessageListenerContainer<>(
@@ -91,11 +90,10 @@ public class KafkaProtobufDeserializerTest {
 
         try {
             container.start();
-
             ContainerTestUtils.waitForAssignment(container, embeddedKafka.getPartitionsPerTopic());
 
             byte[] data = input.toByteArray();
-            ProducerRecord<byte[], byte[]> producerRecord = new ProducerRecord<>(TOPIC, data, data);
+            ProducerRecord<byte[], byte[]> producerRecord = new ProducerRecord<>(topic, data, data);
             ListenableFuture<SendResult<byte[], byte[]>> producerFuture = template.send(producerRecord);
 
             try {
@@ -131,7 +129,7 @@ public class KafkaProtobufDeserializerTest {
                 .setInt(Long.MIN_VALUE)
                 .setDbl(Double.MIN_VALUE)
                 .build();
-        deserialize(message, Proto2Message.parser(), "test.deserializer.proto2");
+        deserialize(message, Proto2Message.parser());
     }
 
     @Test(timeout = 10000)
@@ -142,6 +140,6 @@ public class KafkaProtobufDeserializerTest {
                 .setInt(Long.MAX_VALUE)
                 .setDbl(Double.MAX_VALUE)
                 .build();
-        deserialize(message, Proto3Message.parser(), "test.deserializer.proto3");
+        deserialize(message, Proto3Message.parser());
     }
 }

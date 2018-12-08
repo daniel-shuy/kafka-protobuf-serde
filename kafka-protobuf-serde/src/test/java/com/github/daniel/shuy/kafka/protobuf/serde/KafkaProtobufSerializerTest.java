@@ -11,14 +11,10 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.KafkaException;
 import org.apache.kafka.common.serialization.ByteArrayDeserializer;
 import org.apache.kafka.common.serialization.Serializer;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ContainerProperties;
@@ -29,111 +25,82 @@ import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 
 @RunWith(SpringRunner.class)
-@EmbeddedKafka(controlledShutdown = true, topics = KafkaProtobufSerializerTest.TOPIC)
-@DirtiesContext
+@EmbeddedKafka(controlledShutdown = true)
 public class KafkaProtobufSerializerTest {
-
-    static final String TOPIC = "topic";
-
-    private static final String KAFKA_CONSUMER_GROUP_ID = "test.serializer";
-
-    @Configuration
-    static class ContextConfiguration {
-
-        @Autowired
-        private EmbeddedKafkaBroker embeddedKafka;
-
-        @Bean
-        BlockingQueue<ConsumerRecord<byte[], byte[]>> blockingQueue() {
-            return new LinkedBlockingQueue<>();
-        }
-
-        @Bean
-        MessageListenerContainer messageListenerContainer() {
-            Map<String, Object> consumerProps = KafkaTestUtils.consumerProps(
-                    KAFKA_CONSUMER_GROUP_ID, Boolean.FALSE.toString(), embeddedKafka);
-
-            ConsumerFactory<byte[], byte[]> consumerFactory = new DefaultKafkaConsumerFactory<>(
-                    consumerProps,
-                    new ByteArrayDeserializer(), 
-                    new ByteArrayDeserializer());
-
-            BlockingQueue<ConsumerRecord<byte[], byte[]>> records = blockingQueue();
-
-            ContainerProperties containerProps = new ContainerProperties(TOPIC);
-            containerProps.setMessageListener((MessageListener<byte[], byte[]>) records::add);
-
-            return new KafkaMessageListenerContainer<>(
-                    consumerFactory,
-                    containerProps);
-        }
-    }
 
     @Autowired
     private EmbeddedKafkaBroker embeddedKafka;
 
-    @Autowired
-    private BlockingQueue<ConsumerRecord<byte[], byte[]>> records;
-
-    @Autowired
-    private MessageListenerContainer container;
-
-    @Before
-    public void before() {
-        container.start();
-
-        ContainerTestUtils.waitForAssignment(container, embeddedKafka.getPartitionsPerTopic());
-    }
-
-    @After
-    public void after() {
-        container.stop();
-    }
-
     private <MessageType extends MessageLite> void serialize(
             MessageType input, Parser<MessageType> parser) throws InvalidProtocolBufferException {
-        Map<String, Object> producerProps = KafkaTestUtils.producerProps(embeddedKafka);
+        // generate a random UUID to create a unique topic and consumer group id for each test
+        String uuid = UUID.randomUUID().toString();
+        String topic = "topic-" + uuid;
 
-        Serializer<MessageType> serializer = new KafkaProtobufSerializer<>();
+        embeddedKafka.addTopics(topic);
 
-        try (Producer<MessageType, MessageType> producer = new KafkaProducer<>(
-                producerProps, 
-                serializer, 
-                serializer)) {
-            Future<RecordMetadata> future = producer.send(new ProducerRecord<>(TOPIC, input, input));
+        Map<String, Object> consumerProps = KafkaTestUtils.consumerProps(
+                uuid, Boolean.TRUE.toString(), embeddedKafka);
+        ConsumerFactory<byte[], byte[]> consumerFactory = new DefaultKafkaConsumerFactory<>(
+                consumerProps,
+                new ByteArrayDeserializer(),
+                new ByteArrayDeserializer());
+
+        BlockingQueue<ConsumerRecord<byte[], byte[]>> records = new LinkedBlockingQueue<>();
+        ContainerProperties containerProps = new ContainerProperties(topic);
+        containerProps.setMessageListener((MessageListener<byte[], byte[]>) records::add);
+
+        MessageListenerContainer container = new KafkaMessageListenerContainer<>(
+                consumerFactory,
+                containerProps);
+
+        try {
+            container.start();
+            ContainerTestUtils.waitForAssignment(container, embeddedKafka.getPartitionsPerTopic());
+
+            Map<String, Object> producerProps = KafkaTestUtils.producerProps(embeddedKafka);
+            Serializer<MessageType> serializer = new KafkaProtobufSerializer<>();
+            try (Producer<MessageType, MessageType> producer = new KafkaProducer<>(
+                    producerProps,
+                    serializer,
+                    serializer)) {
+                Future<RecordMetadata> future = producer.send(new ProducerRecord<>(topic, input, input));
+                try {
+                    future.get();
+                } catch (InterruptedException e) {
+                    return;
+                } catch (ExecutionException e) {
+                    throw new KafkaException("Error sending message to Kafka.", e.getCause());
+                }
+            }
+
+            ConsumerRecord<byte[], byte[]> consumerRecord;
             try {
-                future.get();
+                consumerRecord = records.take();
             } catch (InterruptedException e) {
                 return;
-            } catch (ExecutionException e) {
-                throw new KafkaException("Error sending message to Kafka.", e.getCause());
             }
+
+            byte[] outputKeyData = consumerRecord.key();
+            MessageType outputKey = parser.parseFrom(outputKeyData);
+            Assert.assertEquals(outputKey, input);
+
+            byte[] outputValueData = consumerRecord.value();
+            MessageType outputValue = parser.parseFrom(outputValueData);
+            Assert.assertEquals(outputValue, input);
+        } finally {
+            container.stop();
         }
-
-        ConsumerRecord<byte[], byte[]> consumerRecord;
-        try {
-            consumerRecord = records.take();
-        } catch (InterruptedException e) {
-            return;
-        }
-
-        byte[] outputKeyData = consumerRecord.key();
-        MessageType outputKey = parser.parseFrom(outputKeyData);
-        Assert.assertEquals(outputKey, input);
-
-        byte[] outputValueData = consumerRecord.value();
-        MessageType outputValue = parser.parseFrom(outputValueData);
-        Assert.assertEquals(outputValue, input);
     }
 
     @Test(timeout = 10000)

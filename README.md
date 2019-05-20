@@ -4,7 +4,7 @@ Serializer/Deserializer for Kafka to serialize/deserialize Protocol Buffers mess
 ## Requirements
 | Dependency | Version |
 | ------- | ------------------ |
-| Kafka | 1.X.X |
+| Kafka | 2.X.X |
 | Protobuf | 3.X.X |
 | Java | 7+ |
 
@@ -14,15 +14,7 @@ Add the following to your Maven dependency list:
 <dependency>
     <groupId>com.github.daniel-shuy</groupId>
     <artifactId>kafka-protobuf-serde</artifactId>
-    <version>1.0.0</version>
-</dependency>
-```
-Override the `kafka-client` dependency version with the version of Kafka you wish to use:
-```
-<dependency>
-    <groupId>org.apache.kafka</groupId>
-    <artifactId>kafka-clients</artifactId>
-    <version>1.1.1</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 Override the `protobuf.version` property with the version of Protobuf you wish to use (**WARNING:** do not directly override the `protobuf-java` dependency version):
@@ -30,6 +22,14 @@ Override the `protobuf.version` property with the version of Protobuf you wish t
 <properties>
     <protobuf.version>3.6.1</protobuf.version>
 </properties>
+```
+Optionally, you may also override the `kafka-client` dependency version with the version of Kafka you wish to use:
+```
+<dependency>
+    <groupId>org.apache.kafka</groupId>
+    <artifactId>kafka-clients</artifactId>
+    <version>2.0.0</version>
+</dependency>
 ```
 
 ### Kafka Producer

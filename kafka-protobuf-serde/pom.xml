@@ -8,6 +8,7 @@
     <packaging>jar</packaging>
 
     <properties>
+        <kafka.version>2.2.0</kafka.version>
         <protobuf.version>3.7.1</protobuf.version>
         <spring.kafka.version>2.2.6.RELEASE</spring.kafka.version>
 
@@ -23,7 +24,7 @@
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
-            <version>2.0.0</version>
+            <version>${kafka.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.protobuf</groupId>
@@ -46,6 +47,25 @@
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka-test</artifactId>
             <version>${spring.kafka.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>${kafka.version}</version>
+            <classifier>test</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.11</artifactId>
+            <version>${kafka.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.11</artifactId>
+            <version>${kafka.version}</version>
+            <classifier>test</classifier>
             <scope>test</scope>
         </dependency>
     </dependencies>

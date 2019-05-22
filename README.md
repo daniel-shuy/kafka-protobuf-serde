@@ -51,8 +51,8 @@ Consumer<String, MyValue> consumer = new KafkaConsumer<>(props,
     new StringDeserializer(),
     new KafkaProtobufDeserializer(MyValue.parser()));
 
-consumer.subscribe("topic");
-ConsumerRecords<String, MyValue> records = consumer.poll(100);
+consumer.subscribe(Collections.singleton("topic"));
+ConsumerRecords<String, MyValue> records = consumer.poll(Duration.ofMillis(100));
 
 records.forEach(record -> {
     String key = record.key();
@@ -65,7 +65,7 @@ records.forEach(record -> {
 ### Kafka Streams
 ```java
 Serde<String> stringSerde = Serdes.String();
-Serde<MyValue> myValueSerde = KafkaProtobufSerde(MyValue.parser());
+Serde<MyValue> myValueSerde = new KafkaProtobufSerde(MyValue.parser());
 
 Properties config = new Properties();
 // config.put(..., ...);

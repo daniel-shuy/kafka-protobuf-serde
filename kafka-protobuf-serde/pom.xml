@@ -4,7 +4,7 @@
 
     <groupId>com.github.daniel-shuy</groupId>
     <artifactId>kafka-protobuf-serde</artifactId>
-    <version>2.1.1-SNAPSHOT</version>
+    <version>2.1.1</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -171,7 +171,7 @@
         <connection>scm:git:git://github.com/daniel-shuy/kafka-protobuf-serde.git</connection>
         <developerConnection>scm:git:https://github.com/daniel-shuy/kafka-protobuf-serde.git</developerConnection>
         <url>https://github.com/daniel-shuy/kafka-protobuf-serde.git</url>
-        <tag>HEAD</tag>
+        <tag>kafka-protobuf-serde-2.1.1</tag>
     </scm>
     <distributionManagement>
         <snapshotRepository>

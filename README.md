@@ -1,36 +1,45 @@
 # kafka-protobuf-serde
+
 Serializer/Deserializer for Kafka to serialize/deserialize Protocol Buffers messages
 
 ## Requirements
+
 | Dependency | Version |
-| ------- | ------------------ |
-| Kafka | 2.X.X |
-| Protobuf | 3.X.X |
-| Java | 7+ |
+| ---------- | ------- |
+| Kafka      | 2.X.X   |
+| Protobuf   | 3.X.X   |
+| Java       | 7+      |
 
 ## Usage
+
 Add the following to your Maven dependency list:
-```
+
+```xml
 <dependency>
     <groupId>com.github.daniel-shuy</groupId>
     <artifactId>kafka-protobuf-serde</artifactId>
     <version>2.1.0</version>
 </dependency>
 ```
+
 Override the `protobuf.version` property with the version of Protobuf you wish to use (**WARNING:** do not directly override the `protobuf-java` dependency version):
-```
+
+```xml
 <properties>
     <protobuf.version>3.6.1</protobuf.version>
 </properties>
 ```
+
 Optionally, you may also override the `kafka-client` dependency version with the version of Kafka you wish to use:
-```
+
+```xml
 <properties>
     <kafka.version>2.2.0/protobuf.version>
 </properties>
 ```
 
 ### Kafka Producer
+
 ```java
 Properties props = new Properties();
 // props.put(..., ...);
@@ -43,6 +52,7 @@ producer.send(new ProducerRecord<>("topic", new MyValue()));
 ```
 
 ### Kafka Consumer
+
 ```java
 Properties props = new Properties();
 // props.put(..., ...);
@@ -63,6 +73,7 @@ records.forEach(record -> {
 ```
 
 ### Kafka Streams
+
 ```java
 Serde<String> stringSerde = Serdes.String();
 Serde<MyValue> myValueSerde = new KafkaProtobufSerde(MyValue.parser());
@@ -89,6 +100,7 @@ streams.start();
 ### Spring for Apache Kafka (spring-kafka)
 
 #### Kafka Producer
+
 ```java
 @Configuration
 public class KafkaConfig {
@@ -110,6 +122,7 @@ public class KafkaConfig {
 ```
 
 #### Kafka Consumer
+
 ```java
 @Configuration
 @EnableKafka

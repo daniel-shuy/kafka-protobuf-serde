@@ -8,7 +8,7 @@ Serializer/Deserializer for Kafka to serialize/deserialize Protocol Buffers mess
 | ---------- | ------- |
 | Kafka      | 2.X.X   |
 | Protobuf   | 3.X.X   |
-| Java       | 7+      |
+| Java       | 8+      |
 
 ## Usage
 

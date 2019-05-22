@@ -14,7 +14,7 @@ Add the following to your Maven dependency list:
 <dependency>
     <groupId>com.github.daniel-shuy</groupId>
     <artifactId>kafka-protobuf-serde</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 Override the `protobuf.version` property with the version of Protobuf you wish to use (**WARNING:** do not directly override the `protobuf-java` dependency version):
@@ -25,11 +25,9 @@ Override the `protobuf.version` property with the version of Protobuf you wish t
 ```
 Optionally, you may also override the `kafka-client` dependency version with the version of Kafka you wish to use:
 ```
-<dependency>
-    <groupId>org.apache.kafka</groupId>
-    <artifactId>kafka-clients</artifactId>
-    <version>2.0.0</version>
-</dependency>
+<properties>
+    <kafka.version>2.2.0/protobuf.version>
+</properties>
 ```
 
 ### Kafka Producer

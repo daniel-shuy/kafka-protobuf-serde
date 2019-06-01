@@ -10,6 +10,7 @@ jobs:
     - stage: test
       if: (NOT branch =~ /^release\/.*$/)
       script: mvn --batch-mode test
+      after_success: mvn --batch-mode jacoco:report coveralls:report
     - stage: release
       if: (branch =~ /^release\/.*$/)
       env:
@@ -47,13 +48,9 @@ jobs:
         - git flow init --defaults
       script: mvn --batch-mode -DreleaseVersion=$RELEASE_VERSION release:prepare release:perform
       # --message option is required to suppress editor prompt
-      after_success: git flow release finish --showcommands --push --message 'Release' --notag
-    - stage: coverage
-      before_install: true
-      install: true
-      before_script: true
-      script: true
-      after_success: mvn --batch-mode jacoco:report coveralls:report
+      after_success:
+        - mvn --batch-mode jacoco:report coveralls:report
+        - git flow release finish --showcommands --push --message 'Release' --notag
 
 # Cache Maven dependencies (https://docs.travis-ci.com/user/caching/#arbitrary-directories)
 cache:

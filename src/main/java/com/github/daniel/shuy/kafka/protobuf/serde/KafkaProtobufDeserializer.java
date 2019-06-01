@@ -25,9 +25,6 @@ public class KafkaProtobufDeserializer<T extends MessageLite> implements Deseria
         this.parser = parser;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void configure(Map<String, ?> configs, boolean isKey) {
     }
@@ -41,9 +38,6 @@ public class KafkaProtobufDeserializer<T extends MessageLite> implements Deseria
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void close() {
     }

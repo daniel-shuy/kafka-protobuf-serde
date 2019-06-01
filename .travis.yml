@@ -48,6 +48,8 @@ jobs:
       script: mvn --batch-mode -DreleaseVersion=$RELEASE_VERSION release:prepare release:perform
       # --message option is required to suppress editor prompt
       after_success: git flow release finish --showcommands --push --message 'Release' --notag
+    - stage: coverage
+      after_success: mvn --batch-mode jacoco:report coveralls:report
 
 # Cache Maven dependencies (https://docs.travis-ci.com/user/caching/#arbitrary-directories)
 cache:

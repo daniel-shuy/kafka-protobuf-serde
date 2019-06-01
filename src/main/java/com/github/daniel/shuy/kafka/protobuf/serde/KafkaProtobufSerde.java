@@ -7,17 +7,17 @@ import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serializer;
 
-public class KafkaProtobufSerde<MessageType extends MessageLite> implements Serde<MessageType> {
+public class KafkaProtobufSerde<T extends MessageLite> implements Serde<T> {
 
-    private final Serializer<MessageType> serializer;
-    private final Deserializer<MessageType> deserializer;
+    private final Serializer<T> serializer;
+    private final Deserializer<T> deserializer;
 
     /**
      * Returns a new instance of {@link KafkaProtobufSerde}.
      *
      * @param parser The Protobuf {@link Parser}.
      */
-    public KafkaProtobufSerde(Parser<MessageType> parser) {
+    public KafkaProtobufSerde(Parser<T> parser) {
         serializer = new KafkaProtobufSerializer<>();
         deserializer = new KafkaProtobufDeserializer<>(parser);
     }
@@ -31,12 +31,12 @@ public class KafkaProtobufSerde<MessageType extends MessageLite> implements Serd
     }
 
     @Override
-    public Serializer<MessageType> serializer() {
+    public Serializer<T> serializer() {
         return serializer;
     }
 
     @Override
-    public Deserializer<MessageType> deserializer() {
+    public Deserializer<T> deserializer() {
         return deserializer;
     }
 }

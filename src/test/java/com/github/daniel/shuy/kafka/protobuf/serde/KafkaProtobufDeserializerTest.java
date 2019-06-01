@@ -65,24 +65,24 @@ public class KafkaProtobufDeserializerTest {
     @Autowired
     private KafkaTemplate<byte[], byte[]> template;
 
-    private <MessageType extends MessageLite> void deserialize(
-            MessageType input, Parser<MessageType> parser) {
+    private <T extends MessageLite> void deserialize(
+            T input, Parser<T> parser) {
         // generate a random UUID to create a unique topic and consumer group id for each test
         String uuid = UUID.randomUUID().toString();
         String topic = "topic-" + uuid;
 
         embeddedKafka.addTopics(topic);
 
-        Deserializer<MessageType> deserializer = new KafkaProtobufDeserializer<>(parser);
+        Deserializer<T> deserializer = new KafkaProtobufDeserializer<>(parser);
         Map<String, Object> consumerProps = KafkaTestUtils.consumerProps(
                 uuid, Boolean.FALSE.toString(), embeddedKafka);
-        ConsumerFactory<MessageType, MessageType> consumerFactory = new DefaultKafkaConsumerFactory<>(
+        ConsumerFactory<T, T> consumerFactory = new DefaultKafkaConsumerFactory<>(
                 consumerProps,
                 deserializer, deserializer);
 
-        BlockingQueue<ConsumerRecord<MessageType, MessageType>> records = new LinkedBlockingQueue<>();
+        BlockingQueue<ConsumerRecord<T, T>> records = new LinkedBlockingQueue<>();
         ContainerProperties containerProps = new ContainerProperties(topic);
-        containerProps.setMessageListener((MessageListener<MessageType, MessageType>) records::add);
+        containerProps.setMessageListener((MessageListener<T, T>) records::add);
 
         MessageListenerContainer container = new KafkaMessageListenerContainer<>(
                 consumerFactory,
@@ -102,17 +102,17 @@ public class KafkaProtobufDeserializerTest {
             throw new KafkaException("Error sending message to Kafka.", e.getCause());
         }
 
-        ConsumerRecord<MessageType, MessageType> consumerRecord;
+        ConsumerRecord<T, T> consumerRecord;
         try {
             consumerRecord = records.take();
         } catch (InterruptedException e) {
             return;
         }
 
-        MessageType key = consumerRecord.key();
+        T key = consumerRecord.key();
         Assert.assertEquals(key, input);
 
-        MessageType value = consumerRecord.value();
+        T value = consumerRecord.value();
         Assert.assertEquals(value, input);
     }
 

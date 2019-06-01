@@ -7,10 +7,9 @@ import org.apache.kafka.common.serialization.Serializer;
 /**
  * Serializer for Kafka to serialize Protocol Buffers messages
  *
- * @param <MessageType> Protobuf message type
+ * @param <T> Protobuf message type
  */
-public class KafkaProtobufSerializer<MessageType extends MessageLite> implements Serializer<MessageType> {
-
+public class KafkaProtobufSerializer<T extends MessageLite> implements Serializer<T> {
     /**
      * Returns a new instance of {@link KafkaProtobufSerializer}.
      */
@@ -22,7 +21,7 @@ public class KafkaProtobufSerializer<MessageType extends MessageLite> implements
     }
 
     @Override
-    public byte[] serialize(String topic, MessageType data) {
+    public byte[] serialize(String topic, T data) {
         return data.toByteArray();
     }
 

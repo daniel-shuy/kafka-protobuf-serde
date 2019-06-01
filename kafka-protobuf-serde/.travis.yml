@@ -1,0 +1,55 @@
+language: java
+
+# Ubuntu Xenial (https://docs.travis-ci.com/user/reference/xenial/)
+dist: xenial
+
+jdk: openjdk11
+
+jobs:
+  include:
+    - stage: test
+      if: (NOT branch =~ /^release\/.*$/)
+      script: mvn --batch-mode test
+    - stage: release
+      if: (branch =~ /^release\/.*$/)
+      env:
+        # GH_TOKEN
+        - secure: c2jzvyW0Y0uT5U6xSRO3dMbNumWMTLc3xTZ6NvdKpZHhoq8ZGb04gIrXyrRBMIk9I+PQxYp1Qcn20wOXb02/bJH0DU7XzeQxuCxTmeM8gaHjnW2Yk3PM4PCnnL/oBWQD4Jy9TCBhHwWrLk4y0nU1WJE6Nd2wcpC/EIqzVudAYAoRcib0NzQFt61deDNrWMjTDNUOYvveZYfsDxZnG5u6WGtNTnoAFVkSLSQXmw7SWO+14L/ZEV/rX8L34j8+VQ2FIuQv6W1ptOKUyrDUtat3vlfQ0+/5gO0Yd4/8wI/+3Ti3Tkx9S0UydB/FmP2YWk6+g4dJRgqhOAdbuDj8i5lwo/kckZdAI4ZxfnLkpnYYe6DEEnit/BADJLh3cWntObrgj2vpyIQi5eBnGD0w1a7K5T/PpPvlEBNwAjUeHdkgGDnw2CUA201seytG17sl7Fr44uAQ/GqHkcFBGIALrRC2XB0nTz3L2ociAQa/MwEM0CE6kCTec7Q+HQHknqLfikWsgHXsjrhqh19DNsRJApIqk9IC2MmqGg/Gv1phyBszwVOGEDu2A3Pjllk2/+KHiU2G5BOQp+wLggcG8KF4l9lVo3TibkQiDJyelo0iABCKUWEBD1HlobZmAovAdmSacbyvEotylBitV/Se9JAIpQIp3EfpVcPhRBgEu2SgJ8LeIbg=
+        - OSSRH_USER=daniel-shuy
+        # OSSRH_PASSWORD
+        - secure: kXHKnE1LbEMuxPiLclruFWOnSt0Qb/db5F1wtl0FfPcOOUrdZdM6g5gDdyyDoNzd1JoGHJQX0yvS94tbDACHbFLFeToOWtU20G2kp3N4asDjkaKihWsNDkZ5XT1AhiDE1xH6geot9Gm608484Pr+mTnFAzSzeYc4L3hwfMiozcVZ6UDjBVAF40WKkJGWzHzUst3DLifJj0NikkU4PCJKgPKxUfU2ZD4kduPbLKhccHb8URXlsKdOv7nOsDVtM+2McsIYxmtR0+TOxMZsBc7Nfzstw4Dob07EThua0O3j/LJHYQk8sZy/wstbeKc1wj1GEt6nS9K7q7EGCmlM1ue+4+h6AB9LRRFCPPnziqug3ZlIRl+SXUN68m1Ac3rCs335oQis1mMwfMbhrXlXaPZDphKfuapLTLG2csEIi+A1PLDiFMXDM5gYNxgxUaYbooID2beXEfpsBu2uvMx0cNNayxnWf7BXdtSjnhDHamKdDIgI5iu2RFk+FnENf81/WA7E82ruwaw8MtMEJe/U6Z/OiPupbR4M+pkg+Fw/sa+YP3thnaBYfdM+YF3CpAxb/MkF7HVEWv5B8x6GI91t4at9MmP8oYVDkRAA/HY3z6p34qxkAbDgncegxcYV/erCvaMd0TIFhPr9nX7kNofC63Ci/KFt700BfGsDvV9svYKA2t0=
+        # GPG_PASSPHRASE
+        - secure: cZkBSEUzdlbaRwiPjEkKS3xKU8OLAgiBcnFK/wvBM6QajWA7mBS8Ji/0/lW5r1sV3aUNarqUgbXh2dpdLQ/BIZqWnTh+ExGCR7RCn9zDYIZ8Fzm0gLqFAlqFK9KcJrHGQat74zSfqjKj+xRxIgaRfbBq/bS5GRIv/C1N13K52eas8q25fcpYjj3Z1ibARM3sj8IjRO93FTAUAWRFS3OjJqhgqmYawT4Ys8+sNad+QE9r/alikWRYqhtwfw0IzBmAptY42qCLBwvCqbMifD2nCGr9NqaanBRUFjbAwhhCmkqgt+cAZudb4bKKAESID9LlQaPLclrT5CEkLSWfO5gjv9eb8ovrj7dUmqX0MIMgKtznBIZFnXTfPiNXJK7EA1zvMNAnzazG8MJOOZ/DaiU6SRkPe+LtERRI48vNhpY1gDceDQioxTbbwEXbZGlp4eROCKF3sfmF/283OqRkIuYqBnduFO3mcrMiqWc7WksyvzX9mp6+gnTqEXfwwoHFLNK6SodUEH5DsyR0tXfHh1qz6Ya3CoDC7Mw0BhAQQOcuenY8DKWfx3DUoahP0FzcddRCM1nULaxRKMNQu4SzfbVHM+RagsfvmShJpquc+LScEV9HaXT+mIwgtbd2izpkgbUfyQX13cIZw5ovPfKESX7Ktv8i2Q5yNPrkmV6FyOAz8sg=
+        - GPG_PUBLIC_RING=travis/pubring.asc
+        - GPG_SECRET_RING=travis/secring.asc
+        # Extract release version from branch name
+        - RELEASE_VERSION=`echo $TRAVIS_BRANCH | sed --regexp-extended 's/^release\/(.*)$/\1/'`
+        - GIT_MERGE_AUTOEDIT=no
+      before_install:
+        # git-flow AVH (https://github.com/petervanderdoes/gitflow-avh/wiki/Installing-on-Linux,-Unix,-etc.#user-content-ubuntu)
+        - sudo add-apt-repository --yes ppa:pdoes/gitflow-avh
+        # use add-apt-repository --update in Ubuntu 17+ (Artful)
+        - sudo apt-get update
+        - sudo apt-get --yes install git-flow
+        # https://docs.travis-ci.com/user/encrypting-files/#encrypting-multiple-files
+        - openssl aes-256-cbc -K $encrypted_97813bc26939_key -iv $encrypted_97813bc26939_iv -in travis/secrets.tar.enc -out travis/secrets.tar -d
+        - tar xv -C travis -f travis/secrets.tar
+        - cp travis/settings.xml $HOME/.m2/settings.xml
+      install:
+        - git remote set-url origin https://$GH_TOKEN@github.com/$TRAVIS_REPO_SLUG.git
+        - git remote set-branches --add origin master
+        - git remote set-branches --add origin develop
+        - git fetch origin
+        - git checkout --force -b master --track origin/master
+        - git checkout --force -b develop --track origin/develop
+        - git checkout --force $TRAVIS_BRANCH
+        - git config gitflow.prefix.release release/
+        - git flow init --defaults
+      script: mvn --batch-mode -DreleaseVersion=$RELEASE_VERSION release:prepare release:perform
+      # --message option is required to suppress editor prompt
+      after_success: git flow release finish --showcommands --push --message 'Release' --notag
+
+# Cache Maven dependencies (https://docs.travis-ci.com/user/caching/#arbitrary-directories)
+cache:
+  directories:
+    - $HOME/.m2

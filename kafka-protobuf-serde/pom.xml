@@ -195,6 +195,12 @@
     <profiles>
         <profile>
             <id>release</id>
+            <properties>
+                <gpg.defaultKeyring>false</gpg.defaultKeyring>
+                <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+                <gpg.publicKeyring>${env.GPG_PUBLIC_RING}</gpg.publicKeyring>
+                <gpg.secretKeyring>${env.GPG_SECRET_RING}</gpg.secretKeyring>
+            </properties>
             <build>
                 <plugins>
                     <plugin>

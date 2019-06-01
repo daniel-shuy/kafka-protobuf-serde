@@ -10,27 +10,30 @@ import org.apache.kafka.common.serialization.Deserializer;
 /**
  * Deserializer for Kafka to deserialize Protocol Buffers messages
  *
- * @param <MessageType> Protobuf message type
+ * @param <T> Protobuf message type
  */
-public class KafkaProtobufDeserializer<MessageType extends MessageLite> implements Deserializer<MessageType> {
+public class KafkaProtobufDeserializer<T extends MessageLite> implements Deserializer<T> {
 
-    private final Parser<MessageType> parser;
+    private final Parser<T> parser;
 
     /**
      * Returns a new instance of {@link KafkaProtobufDeserializer}.
      *
      * @param parser The Protobuf {@link Parser}.
      */
-    public KafkaProtobufDeserializer(Parser<MessageType> parser) {
+    public KafkaProtobufDeserializer(Parser<T> parser) {
         this.parser = parser;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void configure(Map<String, ?> configs, boolean isKey) {
     }
 
     @Override
-    public MessageType deserialize(String topic, byte[] data) {
+    public T deserialize(String topic, byte[] data) {
         try {
             return parser.parseFrom(data);
         } catch (InvalidProtocolBufferException e) {
@@ -38,6 +41,9 @@ public class KafkaProtobufDeserializer<MessageType extends MessageLite> implemen
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void close() {
     }

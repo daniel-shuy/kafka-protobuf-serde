@@ -31,7 +31,7 @@ Override the `protobuf.version` property with the version of Protobuf you wish t
 
 ```xml
 <properties>
-    <protobuf.version>3.6.1</protobuf.version>
+    <protobuf.version>3.8.0</protobuf.version>
 </properties>
 ```
 

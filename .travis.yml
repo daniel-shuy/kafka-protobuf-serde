@@ -49,6 +49,10 @@ jobs:
       # --message option is required to suppress editor prompt
       after_success: git flow release finish --showcommands --push --message 'Release' --notag
     - stage: coverage
+      before_install: true
+      install: true
+      before_script: true
+      script: true
       after_success: mvn --batch-mode jacoco:report coveralls:report
 
 # Cache Maven dependencies (https://docs.travis-ci.com/user/caching/#arbitrary-directories)

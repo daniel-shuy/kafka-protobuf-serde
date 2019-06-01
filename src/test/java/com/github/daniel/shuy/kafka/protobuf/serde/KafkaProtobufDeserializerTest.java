@@ -7,6 +7,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.KafkaException;
 import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.kafka.common.serialization.Deserializer;
+import org.assertj.core.util.VisibleForTesting;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,6 +44,7 @@ public class KafkaProtobufDeserializerTest {
         private EmbeddedKafkaBroker embeddedKafka;
 
         @Bean
+        @VisibleForTesting
         ProducerFactory<byte[], byte[]> producerFactory() {
             Map<String, Object> producerProps = KafkaTestUtils.producerProps(embeddedKafka);
 
@@ -52,6 +54,7 @@ public class KafkaProtobufDeserializerTest {
         }
 
         @Bean
+        @VisibleForTesting
         KafkaTemplate<byte[], byte[]> kafkaTemplate() {
             return new KafkaTemplate<>(
                     producerFactory(),

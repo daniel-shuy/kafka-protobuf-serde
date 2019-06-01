@@ -11,11 +11,7 @@ import org.apache.kafka.common.serialization.Serializer;
  */
 public class KafkaProtobufSerializer<T extends MessageLite> implements Serializer<T> {
     /**
-     * Returns a new instance of {@link KafkaProtobufSerializer}.
      */
-    public KafkaProtobufSerializer() {
-    }
-
     @Override
     public void configure(Map<String, ?> configs, boolean isKey) {
     }

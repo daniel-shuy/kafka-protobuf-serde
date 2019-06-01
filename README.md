@@ -1,5 +1,10 @@
 # kafka-protobuf-serde
 
+| Branch  | Travis CI                                                                                                                                            | Coverall                                                                                                                                                                                       |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Master  | [![Build Status](https://travis-ci.org/daniel-shuy/kafka-protobuf-serde.svg?branch=master)](https://travis-ci.org/daniel-shuy/kafka-protobuf-serde)  | [![Coverage Status](https://coveralls.io/repos/github/daniel-shuy/kafka-protobuf-serde/badge.svg?branch=master)](https://coveralls.io/github/daniel-shuy/kafka-protobuf-serde?branch=master)   |
+| Develop | [![Build Status](https://travis-ci.org/daniel-shuy/kafka-protobuf-serde.svg?branch=develop)](https://travis-ci.org/daniel-shuy/kafka-protobuf-serde) | [![Coverage Status](https://coveralls.io/repos/github/daniel-shuy/kafka-protobuf-serde/badge.svg?branch=develop)](https://coveralls.io/github/daniel-shuy/kafka-protobuf-serde?branch=develop) |
+
 Serializer/Deserializer for Kafka to serialize/deserialize Protocol Buffers messages
 
 ## Requirements

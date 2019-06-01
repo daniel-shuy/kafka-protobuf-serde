@@ -11,6 +11,7 @@ import org.apache.kafka.common.serialization.Serializer;
  */
 public class KafkaProtobufSerializer<T extends MessageLite> implements Serializer<T> {
     /**
+     * {@inheritDoc}
      */
     @Override
     public void configure(Map<String, ?> configs, boolean isKey) {
@@ -21,6 +22,9 @@ public class KafkaProtobufSerializer<T extends MessageLite> implements Serialize
         return data.toByteArray();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void close() {
     }

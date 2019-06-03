@@ -98,7 +98,7 @@ public class KafkaProtobufSerializerTest {
         Assert.assertEquals(outputValue, input);
     }
 
-    @Test(timeout = 10000)
+    @Test(timeout = 15000)
     public void serializeProto2() throws InvalidProtocolBufferException {
         Proto2Message message = Proto2Message.newBuilder()
                 .setStr("Hello World")
@@ -109,7 +109,7 @@ public class KafkaProtobufSerializerTest {
         serialize(message, Proto2Message.parser());
     }
 
-    @Test(timeout = 10000)
+    @Test(timeout = 15000)
     public void serializeProto3() throws InvalidProtocolBufferException {
         Proto3Message message = Proto3Message.newBuilder()
                 .setStr("Goodbye World")

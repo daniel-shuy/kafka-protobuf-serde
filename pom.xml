@@ -209,12 +209,6 @@
     <profiles>
         <profile>
             <id>release</id>
-            <properties>
-                <gpg.defaultKeyring>false</gpg.defaultKeyring>
-                <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
-                <gpg.publicKeyring>${env.GPG_PUBLIC_RING}</gpg.publicKeyring>
-                <gpg.secretKeyring>${env.GPG_SECRET_RING}</gpg.secretKeyring>
-            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -254,6 +248,12 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <configuration>
+                                    <defaultKeyring>false</defaultKeyring>
+                                    <passphrase>${env.GPG_PASSPHRASE}</passphrase>
+                                    <publicKeyring>${env.GPG_PUBLIC_RING}</publicKeyring>
+                                    <secretKeyring>${env.GPG_SECRET_RING}</secretKeyring>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

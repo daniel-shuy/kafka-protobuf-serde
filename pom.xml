@@ -250,6 +250,7 @@
                                 </goals>
                                 <configuration>
                                     <defaultKeyring>false</defaultKeyring>
+                                    <keyname>9DF44538A3AE4721</keyname>
                                     <passphrase>${env.GPG_PASSPHRASE}</passphrase>
                                     <publicKeyring>${env.GPG_PUBLIC_RING}</publicKeyring>
                                     <secretKeyring>${env.GPG_SECRET_RING}</secretKeyring>

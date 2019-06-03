@@ -169,6 +169,8 @@
                     <useReleaseProfile>false</useReleaseProfile>
                     <releaseProfiles>release</releaseProfiles>
                     <goals>deploy</goals>
+                    <!-- skip Travis CI build -->
+                    <scmCommentPrefix>[ci skip] [maven-release-plugin]</scmCommentPrefix>
                 </configuration>
             </plugin>
         </plugins>

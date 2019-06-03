@@ -14,8 +14,9 @@ jobs:
     - stage: release
       if: (branch =~ /^release\/.*$/)
       env:
-        # GH_TOKEN
-        - secure: rx9ugEV89AoVhKSyH/DRIGAIn9yG3y4FNpnhe/pHpjWYjSFHicveNx0+gcJpG4dduEI1uy5UDhjc2wa0NSKd0+QeYIIDgmUiQWRyWfPWawYQVd6NnFU2QJmnDd54Hz6CdGtVHcyzPbXZsPxsqyIO7IRNoG1ko2Tu9SFSLpkA3ln6tpeTIPPIDuPixoZehf8twkmQQBS505v5AtLaIIn4NZjJOCwEkEOUxPClrJCTVwZ78y86SJaz8h79mAPZ3Zzmx6meFm/y3inQfpfH/JgJEJOasXCqoVHPXiMqFn9jAWtueWGFwpk1PQUHkhhySm0p4LibhohHwYS7dvqZzoe8VNMDJ2dgFC4b832xy4iy/jvR7INHq7AhrtJcImt88hOmmMY0jx5yuzpD1SJFmmUqYmp0gs+6qqoGy7XWUD24ExZdukiS5AcDXoHe5yFP5v3eLLC2oKwDkw92R0oRMAmbx1vvNtYw62eg7f7imjjUoWg9cV8jiO3n4BGRLGfayOUL+j6CSyCcSIvqXNYTJr+66ZlAIJMaP+k6Ki/X/HzDE3RllwyzlKs+QVKpJr3NB1UsxbP+2TfaBtmjTYxhaxsa+GzWR2r1Es5GBOU7Xaa/cUiujiHH2XDj0LPqvXuZPuWruEODUoDSxUzyejmEi3jtOwrie7aUOuVevcUqQnd3dVQ=
+        - GIT_USERNAME=daniel-shuy
+        # GIT_PASSWORD
+        - secure: DGfQGdyii30XppqdTyLQCZgK2Uhy6FC3YUXBo0I3u1dfMApEjRIxQlZC1+uGn/sp9V5iSbNsWreh7FbMLGrEpG60l+vf/RFE5z29i8fbS6xq12X/JXTY7Bvu85Cgms0AXCFV5qELOh/ItBTY5Sn5dyB5oFazlOxSYNwDKxxcY7z83yHRrOn8BBXdZ6S0wAhqmGODFjWa6ryIhC+Tx5IzjAILPXs0Z5Zjr/kK6Zc9z5qlVg+FONBa0s6rr41g1skFGIaNSlGVFToaUAd0FyK0QZ6VKXhMOkOgmgBvGx+/wZfOEIVEeb+PMM4NHsGJLMD4Dc/TcY9vG0WcdHDQbnLDuNf5u/3h8iCBMQMce+HgT32b1AOVUN652f8fab8D3wkJD9kxBWk/y4CDWVDtN2R+lDRqAAAiVFaLEBHmFDijZo4OV9Tz7Bo8lnCcuKGy4lQHQ0nFjK/ZlgDyPNPAAZwSm8451g+MMOVZ2JRFXlMHeLftVUiNCNLkUD/DWfZTK/50YHDA3MmFwBSeZ/yoxhDPI1774b0FcOW6HnsPCurKYzvUI7muDAcGbZn0oayDsOflzDneAR9T4NLS7F+EwyAe+gxNf3Ba5618wkmn3h9mo/p3JRbM6bK0SL4Ci4mXnFD0qWhc/z+1QXRPpTS8EN3uIz8Pl3gjv2cfUxayT0CFnqA=
         - OSSRH_USER=daniel-shuy
         # OSSRH_PASSWORD
         - secure: 5gullv5aDjCvPRJXQToOtrK+J76dCDgsfgrgCovRIpuvz7ToRGu43Gg1c/+zcayEFaglPdPrXUMR/5eyLyK5cuoIVGJUmTADL7o18IN3WRZCUNszUlujiiuEcv2QsyAmR2meJUs4pES5hiuxcQNluzcI1b8u/pXcosyWfY9MYKAMupyxQVfnCG9jLHi6QszARhYqwcnfFWdFBt7N8+hAvqVzJE5p3g4aueRWiYYMG0feTSdytDcHurL75Rlh74teZ5EXD3QM+bO2AUnpvkr6EaBsuuCAwSBRMJXxkljyLhZb9uhGoZ/EwDtSVwa86axLxJiixwFl44jY2Z1ub3nP3Z0XCN2alhkIHt3q8DSDzdze4NibivIQ5EUo7rOxLLXbYvB1Kf9q6lL7CdPWNI+U0x1/pmYU+jMuUqjmUicHW9/f0xI4OuEmX2u+rAj04Wctuwq/1qJe2Ejz8bNtjXU41XYJJRZNqCHWurAIyWU2ze0ZXnE4jvrJfnESnGpMopp/mve9pccYxFRWQUt8W3nUkTRu92fi1aXeruq9hnCoXEZ1/v/Mc/u2FWil5s5+7o4Z0k36vJdKPG3PGHHy1m+flRmDiHRTTbOKwqyjdR+F7tIhnRnkZ7NvDa8X4xb/WImIJTyhPDyacxQfAxdBnBpTYgrd5gS84y+agCZDG3TCb6g=
@@ -37,7 +38,7 @@ jobs:
         - tar xv -C travis -f travis/secrets.tar
         - cp travis/settings.xml $HOME/.m2/settings.xml
       install:
-        - git remote set-url origin https://$GH_TOKEN@github.com/$TRAVIS_REPO_SLUG.git
+        - git remote set-url origin https://$GIT_USERNAME:$GIT_PASSWORD@github.com/$TRAVIS_REPO_SLUG.git
         - git remote set-branches --add origin master
         - git remote set-branches --add origin develop
         - git fetch origin

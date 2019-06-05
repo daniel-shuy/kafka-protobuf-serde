@@ -119,7 +119,7 @@ public class KafkaProtobufDeserializerTest {
         Assert.assertEquals(value, input);
     }
 
-    @Test(timeout = 10000)
+    @Test(timeout = 15000)
     public void deserializeProto2() {
         Proto2Message message = Proto2Message.newBuilder()
                 .setStr("Hello World")
@@ -130,7 +130,7 @@ public class KafkaProtobufDeserializerTest {
         deserialize(message, Proto2Message.parser());
     }
 
-    @Test(timeout = 10000)
+    @Test(timeout = 15000)
     public void deserializeProto3() {
         Proto3Message message = Proto3Message.newBuilder()
                 .setStr("Goodbye World")

@@ -14,15 +14,18 @@ jobs:
     - stage: release
       if: (branch =~ /^release\/.*$/)
       env:
-        # GH_TOKEN
-        - secure: c2jzvyW0Y0uT5U6xSRO3dMbNumWMTLc3xTZ6NvdKpZHhoq8ZGb04gIrXyrRBMIk9I+PQxYp1Qcn20wOXb02/bJH0DU7XzeQxuCxTmeM8gaHjnW2Yk3PM4PCnnL/oBWQD4Jy9TCBhHwWrLk4y0nU1WJE6Nd2wcpC/EIqzVudAYAoRcib0NzQFt61deDNrWMjTDNUOYvveZYfsDxZnG5u6WGtNTnoAFVkSLSQXmw7SWO+14L/ZEV/rX8L34j8+VQ2FIuQv6W1ptOKUyrDUtat3vlfQ0+/5gO0Yd4/8wI/+3Ti3Tkx9S0UydB/FmP2YWk6+g4dJRgqhOAdbuDj8i5lwo/kckZdAI4ZxfnLkpnYYe6DEEnit/BADJLh3cWntObrgj2vpyIQi5eBnGD0w1a7K5T/PpPvlEBNwAjUeHdkgGDnw2CUA201seytG17sl7Fr44uAQ/GqHkcFBGIALrRC2XB0nTz3L2ociAQa/MwEM0CE6kCTec7Q+HQHknqLfikWsgHXsjrhqh19DNsRJApIqk9IC2MmqGg/Gv1phyBszwVOGEDu2A3Pjllk2/+KHiU2G5BOQp+wLggcG8KF4l9lVo3TibkQiDJyelo0iABCKUWEBD1HlobZmAovAdmSacbyvEotylBitV/Se9JAIpQIp3EfpVcPhRBgEu2SgJ8LeIbg=
+        - GIT_USERNAME=daniel-shuy
+        # GIT_PASSWORD
+        - secure: DGfQGdyii30XppqdTyLQCZgK2Uhy6FC3YUXBo0I3u1dfMApEjRIxQlZC1+uGn/sp9V5iSbNsWreh7FbMLGrEpG60l+vf/RFE5z29i8fbS6xq12X/JXTY7Bvu85Cgms0AXCFV5qELOh/ItBTY5Sn5dyB5oFazlOxSYNwDKxxcY7z83yHRrOn8BBXdZ6S0wAhqmGODFjWa6ryIhC+Tx5IzjAILPXs0Z5Zjr/kK6Zc9z5qlVg+FONBa0s6rr41g1skFGIaNSlGVFToaUAd0FyK0QZ6VKXhMOkOgmgBvGx+/wZfOEIVEeb+PMM4NHsGJLMD4Dc/TcY9vG0WcdHDQbnLDuNf5u/3h8iCBMQMce+HgT32b1AOVUN652f8fab8D3wkJD9kxBWk/y4CDWVDtN2R+lDRqAAAiVFaLEBHmFDijZo4OV9Tz7Bo8lnCcuKGy4lQHQ0nFjK/ZlgDyPNPAAZwSm8451g+MMOVZ2JRFXlMHeLftVUiNCNLkUD/DWfZTK/50YHDA3MmFwBSeZ/yoxhDPI1774b0FcOW6HnsPCurKYzvUI7muDAcGbZn0oayDsOflzDneAR9T4NLS7F+EwyAe+gxNf3Ba5618wkmn3h9mo/p3JRbM6bK0SL4Ci4mXnFD0qWhc/z+1QXRPpTS8EN3uIz8Pl3gjv2cfUxayT0CFnqA=
         - OSSRH_USER=daniel-shuy
-        # OSSRH_PASSWORD
-        - secure: kXHKnE1LbEMuxPiLclruFWOnSt0Qb/db5F1wtl0FfPcOOUrdZdM6g5gDdyyDoNzd1JoGHJQX0yvS94tbDACHbFLFeToOWtU20G2kp3N4asDjkaKihWsNDkZ5XT1AhiDE1xH6geot9Gm608484Pr+mTnFAzSzeYc4L3hwfMiozcVZ6UDjBVAF40WKkJGWzHzUst3DLifJj0NikkU4PCJKgPKxUfU2ZD4kduPbLKhccHb8URXlsKdOv7nOsDVtM+2McsIYxmtR0+TOxMZsBc7Nfzstw4Dob07EThua0O3j/LJHYQk8sZy/wstbeKc1wj1GEt6nS9K7q7EGCmlM1ue+4+h6AB9LRRFCPPnziqug3ZlIRl+SXUN68m1Ac3rCs335oQis1mMwfMbhrXlXaPZDphKfuapLTLG2csEIi+A1PLDiFMXDM5gYNxgxUaYbooID2beXEfpsBu2uvMx0cNNayxnWf7BXdtSjnhDHamKdDIgI5iu2RFk+FnENf81/WA7E82ruwaw8MtMEJe/U6Z/OiPupbR4M+pkg+Fw/sa+YP3thnaBYfdM+YF3CpAxb/MkF7HVEWv5B8x6GI91t4at9MmP8oYVDkRAA/HY3z6p34qxkAbDgncegxcYV/erCvaMd0TIFhPr9nX7kNofC63Ci/KFt700BfGsDvV9svYKA2t0=
+        # OSSRH_TOKEN_NAME
+        - secure: l97ybR6Ou/7O2CH+MVShYVDQ2tZpSqq/lQc8aCFIaTOrio89f8uUZCuYZpqu+d2K9MCZs75ajWZRFoa6bR/Awz+f8YqG1dlE7UZKoXZd3oX8nuLj4/RtQv5Nq/on3od4WphPaDfHooGJiz9po87dapWhqK/U7bTLQ1wokZ+5AgaG66m2HPAh61+g6oxHr/DohMFaLKtRy7K/q4hbe766UDw5duBBOgrW+1slvuZ+NGEIeqE/mKP7jJ3YvLpN0cDj4p9Df2adm8E1BC6EI4SKwk01g8L7PvbR7M2dsYfiEdTVkYMnfXqEDi13VXh00khCs4KJsmgNghSi/H6Cx8RjCDXckrYMbivh10BLqLMdVi6KxvpqG/cH5p++/Ib7Ua9RiOz74xfFE9MHWKrerjxHnJMHe1NEjS9Z1LFrk5ERvUaydHn8uMT+NeOFtxCxuyVziKP42xRojALtefyp5jSfBr+XhPyI5jDZug1ZOh5du/ThCJhpnU0iW67Lojmj2F7rgdoyQtS+8FrRV8bsJJOih9HBhlzOYpcX/5wsJ+WlSWKRw6uDmllc6TOVNmVeqfh5+MDal9PmrRc2iJMyFR0SxcBtBIiTZoKt/qXdzWw8P2sdirRKFY6xcHwN0qBuKHYVHM0j6WhOizLZIKIIGTwboL6WOLpWoT6K9X5uojGvlx0=
+        # OSSRH_TOKEN_PASSWORD
+        - secure: SKFqxOW8f6AR7w04tj+jMxROlVxZiaFv1RsmZEfwGl/F7677tL8ZYfiw7Wzg619wZALQ3q5AoeXH0JhMkpITHU0X9MkFNxpNkowAE9KSKMk2+BddaW9q6Y6xwxMF6PXWHRVej0ES6lGS9y63j/ws+DwXqRN9cPFnmhmUi0ZQf8W7Gtk3Ek73LgeYibksBVc0SHqEaTprFg3wbRdeEW8f6uz64e1LkoOIT0LByFZfNPJf9U1II9brjbLnHvDDNUBXNjOo6pQWrdWpdXxQ9M0ILeG5Xo4cviP4JNI8LNIeRtHfcD/Yg6Ft2ZikM1prjKhkpTOHpCRMbucL0Z9dbY346a4oLgVDeuMREM1EGoHNpUVWNrn2c0EiP5SnXDMdwnCxSBugJDxAXQVJTypDSAOhUcFUGBO5jN7y2cEhnOwX9skEcRG7ZYWdg1tBcFf6Cal5dm6VMuCHEQvIyjjS1r2EbqVvD7c+z56RaHXexNzNHIpxzV8JGLzFsrRNdk0xMabeLppvvgeDSeGEFWpDTrCvvzNGB8WNDPB99j3EkvexSd9HToZKxUWBt9LqEJ1u0ubXYNAk5fu/yx/uhvQsbBxLVNtclRrJisjMKvehg6AwW4csrIiwet6wHOPzEoac+kgKzKlR3Rdt9MYM+H9P2F0BG36tqz+ueUQx3+oE1SXpNGI=
         # GPG_PASSPHRASE
         - secure: cZkBSEUzdlbaRwiPjEkKS3xKU8OLAgiBcnFK/wvBM6QajWA7mBS8Ji/0/lW5r1sV3aUNarqUgbXh2dpdLQ/BIZqWnTh+ExGCR7RCn9zDYIZ8Fzm0gLqFAlqFK9KcJrHGQat74zSfqjKj+xRxIgaRfbBq/bS5GRIv/C1N13K52eas8q25fcpYjj3Z1ibARM3sj8IjRO93FTAUAWRFS3OjJqhgqmYawT4Ys8+sNad+QE9r/alikWRYqhtwfw0IzBmAptY42qCLBwvCqbMifD2nCGr9NqaanBRUFjbAwhhCmkqgt+cAZudb4bKKAESID9LlQaPLclrT5CEkLSWfO5gjv9eb8ovrj7dUmqX0MIMgKtznBIZFnXTfPiNXJK7EA1zvMNAnzazG8MJOOZ/DaiU6SRkPe+LtERRI48vNhpY1gDceDQioxTbbwEXbZGlp4eROCKF3sfmF/283OqRkIuYqBnduFO3mcrMiqWc7WksyvzX9mp6+gnTqEXfwwoHFLNK6SodUEH5DsyR0tXfHh1qz6Ya3CoDC7Mw0BhAQQOcuenY8DKWfx3DUoahP0FzcddRCM1nULaxRKMNQu4SzfbVHM+RagsfvmShJpquc+LScEV9HaXT+mIwgtbd2izpkgbUfyQX13cIZw5ovPfKESX7Ktv8i2Q5yNPrkmV6FyOAz8sg=
-        - GPG_PUBLIC_RING=travis/pubring.asc
-        - GPG_SECRET_RING=travis/secring.asc
+        - GPG_PUBLIC_RING=$TRAVIS_BUILD_DIR/travis/pubring.gpg
+        - GPG_SECRET_RING=$TRAVIS_BUILD_DIR/travis/secring.gpg
         # Extract release version from branch name
         - RELEASE_VERSION=`echo $TRAVIS_BRANCH | sed --regexp-extended 's/^release\/(.*)$/\1/'`
         - GIT_MERGE_AUTOEDIT=no
@@ -33,11 +36,11 @@ jobs:
         - sudo apt-get update
         - sudo apt-get --yes install git-flow
         # https://docs.travis-ci.com/user/encrypting-files/#encrypting-multiple-files
-        - openssl aes-256-cbc -K $encrypted_97813bc26939_key -iv $encrypted_97813bc26939_iv -in travis/secrets.tar.enc -out travis/secrets.tar -d
+        - openssl aes-256-cbc -K $encrypted_4c43ee4cec95_key -iv $encrypted_4c43ee4cec95_iv -in travis/secrets.tar.enc -out travis/secrets.tar -d
         - tar xv -C travis -f travis/secrets.tar
         - cp travis/settings.xml $HOME/.m2/settings.xml
       install:
-        - git remote set-url origin https://$GH_TOKEN@github.com/$TRAVIS_REPO_SLUG.git
+        - git remote set-url origin https://$GIT_USERNAME:$GIT_PASSWORD@github.com/$TRAVIS_REPO_SLUG.git
         - git remote set-branches --add origin master
         - git remote set-branches --add origin develop
         - git fetch origin

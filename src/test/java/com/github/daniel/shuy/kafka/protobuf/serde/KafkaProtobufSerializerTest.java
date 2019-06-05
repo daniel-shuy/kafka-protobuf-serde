@@ -41,8 +41,8 @@ public class KafkaProtobufSerializerTest {
     @Autowired
     private EmbeddedKafkaBroker embeddedKafka;
 
-    private <MessageType extends MessageLite> void serialize(
-            MessageType input, Parser<MessageType> parser) throws InvalidProtocolBufferException {
+    private <T extends MessageLite> void serialize(
+            T input, Parser<T> parser) throws InvalidProtocolBufferException {
         // generate a random UUID to create a unique topic and consumer group id for each test
         String uuid = UUID.randomUUID().toString();
         String topic = "topic-" + uuid;
@@ -67,8 +67,8 @@ public class KafkaProtobufSerializerTest {
         ContainerTestUtils.waitForAssignment(container, embeddedKafka.getPartitionsPerTopic());
 
         Map<String, Object> producerProps = KafkaTestUtils.producerProps(embeddedKafka);
-        Serializer<MessageType> serializer = new KafkaProtobufSerializer<>();
-        try (Producer<MessageType, MessageType> producer = new KafkaProducer<>(
+        Serializer<T> serializer = new KafkaProtobufSerializer<>();
+        try (Producer<T, T> producer = new KafkaProducer<>(
                 producerProps,
                 serializer,
                 serializer)) {
@@ -90,15 +90,15 @@ public class KafkaProtobufSerializerTest {
         }
 
         byte[] outputKeyData = consumerRecord.key();
-        MessageType outputKey = parser.parseFrom(outputKeyData);
+        T outputKey = parser.parseFrom(outputKeyData);
         Assert.assertEquals(outputKey, input);
 
         byte[] outputValueData = consumerRecord.value();
-        MessageType outputValue = parser.parseFrom(outputValueData);
+        T outputValue = parser.parseFrom(outputValueData);
         Assert.assertEquals(outputValue, input);
     }
 
-    @Test(timeout = 10000)
+    @Test(timeout = 15000)
     public void serializeProto2() throws InvalidProtocolBufferException {
         Proto2Message message = Proto2Message.newBuilder()
                 .setStr("Hello World")
@@ -109,7 +109,7 @@ public class KafkaProtobufSerializerTest {
         serialize(message, Proto2Message.parser());
     }
 
-    @Test(timeout = 10000)
+    @Test(timeout = 15000)
     public void serializeProto3() throws InvalidProtocolBufferException {
         Proto3Message message = Proto3Message.newBuilder()
                 .setStr("Goodbye World")

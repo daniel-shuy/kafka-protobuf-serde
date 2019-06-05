@@ -1,5 +1,10 @@
 # kafka-protobuf-serde
 
+| Branch  | Travis CI                                                                                                                                            | Codacy                                                                                                                                                                                                                                                                                     | Coverall                                                                                                                                                                                       |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Master  | [![Build Status](https://travis-ci.org/daniel-shuy/kafka-protobuf-serde.svg?branch=master)](https://travis-ci.org/daniel-shuy/kafka-protobuf-serde)  | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b20bbaee80b542edb96f068ff1b440c1?branch=master)](https://www.codacy.com/app/daniel-shuy/kafka-protobuf-serde?utm_source=github.com&utm_medium=referral&utm_content=daniel-shuy/kafka-protobuf-serde&utm_campaign=Badge_Grade)  | [![Coverage Status](https://coveralls.io/repos/github/daniel-shuy/kafka-protobuf-serde/badge.svg?branch=master)](https://coveralls.io/github/daniel-shuy/kafka-protobuf-serde?branch=master)   |
+| Develop | [![Build Status](https://travis-ci.org/daniel-shuy/kafka-protobuf-serde.svg?branch=develop)](https://travis-ci.org/daniel-shuy/kafka-protobuf-serde) | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b20bbaee80b542edb96f068ff1b440c1?branch=develop)](https://www.codacy.com/app/daniel-shuy/kafka-protobuf-serde?utm_source=github.com&utm_medium=referral&utm_content=daniel-shuy/kafka-protobuf-serde&utm_campaign=Badge_Grade) | [![Coverage Status](https://coveralls.io/repos/github/daniel-shuy/kafka-protobuf-serde/badge.svg?branch=develop)](https://coveralls.io/github/daniel-shuy/kafka-protobuf-serde?branch=develop) |
+
 Serializer/Deserializer for Kafka to serialize/deserialize Protocol Buffers messages
 
 ## Requirements
@@ -18,7 +23,7 @@ Add the following to your Maven dependency list:
 <dependency>
     <groupId>com.github.daniel-shuy</groupId>
     <artifactId>kafka-protobuf-serde</artifactId>
-    <version>2.1.1</version>
+    <version>2.2.0</version>
 </dependency>
 ```
 
@@ -26,7 +31,7 @@ Override the `protobuf.version` property with the version of Protobuf you wish t
 
 ```xml
 <properties>
-    <protobuf.version>3.6.1</protobuf.version>
+    <protobuf.version>3.8.0</protobuf.version>
 </properties>
 ```
 
@@ -34,7 +39,7 @@ Optionally, you may also override the `kafka-client` dependency version with the
 
 ```xml
 <properties>
-    <kafka.version>2.2.0/protobuf.version>
+    <kafka.version>2.2.1</protobuf.version>
 </properties>
 ```
 

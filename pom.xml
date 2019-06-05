@@ -4,11 +4,11 @@
 
     <groupId>com.github.daniel-shuy</groupId>
     <artifactId>kafka-protobuf-serde</artifactId>
-    <version>2.1.2-SNAPSHOT</version>
+    <version>2.2.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
-        <kafka.version>2.2.0</kafka.version>
+        <kafka.version>2.2.1</kafka.version>
         <protobuf.version>3.8.0</protobuf.version>
         <spring.kafka.version>2.2.6.RELEASE</spring.kafka.version>
 
@@ -169,6 +169,8 @@
                     <useReleaseProfile>false</useReleaseProfile>
                     <releaseProfiles>release</releaseProfiles>
                     <goals>deploy</goals>
+                    <!-- skip Travis CI build -->
+                    <scmCommentPrefix>[ci skip] [maven-release-plugin]</scmCommentPrefix>
                 </configuration>
             </plugin>
         </plugins>
@@ -207,12 +209,6 @@
     <profiles>
         <profile>
             <id>release</id>
-            <properties>
-                <gpg.defaultKeyring>false</gpg.defaultKeyring>
-                <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
-                <gpg.publicKeyring>${env.GPG_PUBLIC_RING}</gpg.publicKeyring>
-                <gpg.secretKeyring>${env.GPG_SECRET_RING}</gpg.secretKeyring>
-            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -252,6 +248,13 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <configuration>
+                                    <defaultKeyring>false</defaultKeyring>
+                                    <keyname>9DF44538A3AE4721</keyname>
+                                    <passphrase>${env.GPG_PASSPHRASE}</passphrase>
+                                    <publicKeyring>${env.GPG_PUBLIC_RING}</publicKeyring>
+                                    <secretKeyring>${env.GPG_SECRET_RING}</secretKeyring>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

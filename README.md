@@ -64,7 +64,7 @@ Properties props = new Properties();
 
 Consumer<String, MyValue> consumer = new KafkaConsumer<>(props,
     new StringDeserializer(),
-    new KafkaProtobufDeserializer(MyValue.parser()));
+    new KafkaProtobufDeserializer<>(MyValue.parser()));
 
 consumer.subscribe(Collections.singleton("topic"));
 ConsumerRecords<String, MyValue> records = consumer.poll(Duration.ofMillis(100));
@@ -81,7 +81,7 @@ records.forEach(record -> {
 
 ```java
 Serde<String> stringSerde = Serdes.String();
-Serde<MyValue> myValueSerde = new KafkaProtobufSerde(MyValue.parser());
+Serde<MyValue> myValueSerde = new KafkaProtobufSerde<>(MyValue.parser());
 
 Properties config = new Properties();
 // config.put(..., ...);
@@ -148,7 +148,7 @@ public class KafkaConfig {
 
         return new DefaultKafkaConsumerFactory<>(props, 
             new StringDeserializer(), 
-            new KafkaProtobufDeserializer(MyValue.parser()));
+            new KafkaProtobufDeserializer<>(MyValue.parser()));
     }
 }
 

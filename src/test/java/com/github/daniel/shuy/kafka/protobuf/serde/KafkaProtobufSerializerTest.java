@@ -41,6 +41,28 @@ public class KafkaProtobufSerializerTest {
     @Autowired
     private EmbeddedKafkaBroker embeddedKafka;
 
+    @Test(timeout = 15000)
+    public void serializeProto2() throws InvalidProtocolBufferException {
+        Proto2Message message = Proto2Message.newBuilder()
+                .setStr("Hello World")
+                .setBoolean(true)
+                .setInt(Long.MIN_VALUE)
+                .setDbl(Double.MIN_VALUE)
+                .build();
+        serialize(message, Proto2Message.parser());
+    }
+
+    @Test(timeout = 15000)
+    public void serializeProto3() throws InvalidProtocolBufferException {
+        Proto3Message message = Proto3Message.newBuilder()
+                .setStr("Goodbye World")
+                .setBoolean(false)
+                .setInt(Long.MAX_VALUE)
+                .setDbl(Double.MAX_VALUE)
+                .build();
+        serialize(message, Proto3Message.parser());
+    }
+
     private <T extends MessageLite> void serialize(
             T input, Parser<T> parser) throws InvalidProtocolBufferException {
         // generate a random UUID to create a unique topic and consumer group id for each test
@@ -96,27 +118,5 @@ public class KafkaProtobufSerializerTest {
         byte[] outputValueData = consumerRecord.value();
         T outputValue = parser.parseFrom(outputValueData);
         Assert.assertEquals(outputValue, input);
-    }
-
-    @Test(timeout = 15000)
-    public void serializeProto2() throws InvalidProtocolBufferException {
-        Proto2Message message = Proto2Message.newBuilder()
-                .setStr("Hello World")
-                .setBoolean(true)
-                .setInt(Long.MIN_VALUE)
-                .setDbl(Double.MIN_VALUE)
-                .build();
-        serialize(message, Proto2Message.parser());
-    }
-
-    @Test(timeout = 15000)
-    public void serializeProto3() throws InvalidProtocolBufferException {
-        Proto3Message message = Proto3Message.newBuilder()
-                .setStr("Goodbye World")
-                .setBoolean(false)
-                .setInt(Long.MAX_VALUE)
-                .setDbl(Double.MAX_VALUE)
-                .build();
-        serialize(message, Proto3Message.parser());
     }
 }

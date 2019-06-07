@@ -68,6 +68,28 @@ public class KafkaProtobufDeserializerTest {
     @Autowired
     private KafkaTemplate<byte[], byte[]> template;
 
+    @Test(timeout = 15000)
+    public void deserializeProto2() {
+        Proto2Message message = Proto2Message.newBuilder()
+                .setStr("Hello World")
+                .setBoolean(true)
+                .setInt(Long.MIN_VALUE)
+                .setDbl(Double.MIN_VALUE)
+                .build();
+        deserialize(message, Proto2Message.parser());
+    }
+
+    @Test(timeout = 15000)
+    public void deserializeProto3() {
+        Proto3Message message = Proto3Message.newBuilder()
+                .setStr("Goodbye World")
+                .setBoolean(false)
+                .setInt(Long.MAX_VALUE)
+                .setDbl(Double.MAX_VALUE)
+                .build();
+        deserialize(message, Proto3Message.parser());
+    }
+
     private <T extends MessageLite> void deserialize(
             T input, Parser<T> parser) {
         // generate a random UUID to create a unique topic and consumer group id for each test
@@ -117,27 +139,5 @@ public class KafkaProtobufDeserializerTest {
 
         T value = consumerRecord.value();
         Assert.assertEquals(value, input);
-    }
-
-    @Test(timeout = 15000)
-    public void deserializeProto2() {
-        Proto2Message message = Proto2Message.newBuilder()
-                .setStr("Hello World")
-                .setBoolean(true)
-                .setInt(Long.MIN_VALUE)
-                .setDbl(Double.MIN_VALUE)
-                .build();
-        deserialize(message, Proto2Message.parser());
-    }
-
-    @Test(timeout = 15000)
-    public void deserializeProto3() {
-        Proto3Message message = Proto3Message.newBuilder()
-                .setStr("Goodbye World")
-                .setBoolean(false)
-                .setInt(Long.MAX_VALUE)
-                .setDbl(Double.MAX_VALUE)
-                .build();
-        deserialize(message, Proto3Message.parser());
     }
 }

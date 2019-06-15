@@ -39,7 +39,7 @@ Optionally, you may also override the `kafka-client` dependency version with the
 
 ```xml
 <properties>
-    <kafka.version>2.2.1</protobuf.version>
+    <kafka.version>2.2.1</kafka.version>
 </properties>
 ```
 

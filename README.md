@@ -35,11 +35,11 @@ Override the `protobuf.version` property with the version of Protobuf you wish t
 </properties>
 ```
 
-Optionally, you may also override the `kafka-client` dependency version with the version of Kafka you wish to use:
+Optionally, you may also override the `kafka-clients` dependency version with the version of Kafka you wish to use:
 
 ```xml
 <properties>
-    <kafka.version>2.2.1</kafka.version>
+    <kafka.version>2.3.0</kafka.version>
 </properties>
 ```
 

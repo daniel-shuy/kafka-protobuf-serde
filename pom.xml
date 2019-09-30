@@ -10,7 +10,7 @@
     <properties>
         <kafka.version>2.3.0</kafka.version>
         <protobuf.version>3.10.0</protobuf.version>
-        <spring.kafka.version>2.2.8.RELEASE</spring.kafka.version>
+        <spring.kafka.version>2.2.9.RELEASE</spring.kafka.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>

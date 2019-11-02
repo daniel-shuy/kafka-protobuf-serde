@@ -5,7 +5,8 @@
 | Master  | [![Build Status](https://travis-ci.org/daniel-shuy/kafka-protobuf-serde.svg?branch=master)](https://travis-ci.org/daniel-shuy/kafka-protobuf-serde)  | [![CodeFactor](https://www.codefactor.io/repository/github/daniel-shuy/kafka-protobuf-serde/badge/master)](https://www.codefactor.io/repository/github/daniel-shuy/kafka-protobuf-serde/overview/master)   | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b20bbaee80b542edb96f068ff1b440c1?branch=master)](https://www.codacy.com/app/daniel-shuy/kafka-protobuf-serde?utm_source=github.com&utm_medium=referral&utm_content=daniel-shuy/kafka-protobuf-serde&utm_campaign=Badge_Grade)  | [![BCH compliance](https://bettercodehub.com/edge/badge/daniel-shuy/kafka-protobuf-serde?branch=master)](https://bettercodehub.com/)  | [![Coverage Status](https://coveralls.io/repos/github/daniel-shuy/kafka-protobuf-serde/badge.svg?branch=master)](https://coveralls.io/github/daniel-shuy/kafka-protobuf-serde?branch=master)   |
 | Develop | [![Build Status](https://travis-ci.org/daniel-shuy/kafka-protobuf-serde.svg?branch=develop)](https://travis-ci.org/daniel-shuy/kafka-protobuf-serde) | [![CodeFactor](https://www.codefactor.io/repository/github/daniel-shuy/kafka-protobuf-serde/badge/develop)](https://www.codefactor.io/repository/github/daniel-shuy/kafka-protobuf-serde/overview/develop) | [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b20bbaee80b542edb96f068ff1b440c1?branch=develop)](https://www.codacy.com/app/daniel-shuy/kafka-protobuf-serde?utm_source=github.com&utm_medium=referral&utm_content=daniel-shuy/kafka-protobuf-serde&utm_campaign=Badge_Grade) | [![BCH compliance](https://bettercodehub.com/edge/badge/daniel-shuy/kafka-protobuf-serde?branch=develop)](https://bettercodehub.com/) | [![Coverage Status](https://coveralls.io/repos/github/daniel-shuy/kafka-protobuf-serde/badge.svg?branch=develop)](https://coveralls.io/github/daniel-shuy/kafka-protobuf-serde?branch=develop) |
 
-Serializer/Deserializer for Kafka to serialize/deserialize Protocol Buffers messages
+Serializer/Deserializer for Kafka to serialize/deserialize Protocol Buffers
+messages
 
 ## Requirements
 
@@ -27,7 +28,9 @@ Add the following to your Maven dependency list:
 </dependency>
 ```
 
-Override the `protobuf.version` property with the version of Protobuf you wish to use (**WARNING:** do not directly override the `protobuf-java` dependency version):
+Override the `protobuf.version` property with the version of Protobuf you wish
+to use (**WARNING:** do not directly override the `protobuf-java` dependency
+version):
 
 ```xml
 <properties>
@@ -35,11 +38,12 @@ Override the `protobuf.version` property with the version of Protobuf you wish t
 </properties>
 ```
 
-Optionally, you may also override the `kafka-clients` dependency version with the version of Kafka you wish to use:
+Optionally, you may also override the `kafka-clients` dependency version with
+the version of Kafka you wish to use:
 
 ```xml
 <properties>
-    <kafka.version>2.3.0</kafka.version>
+    <kafka.version>2.3.1</kafka.version>
 </properties>
 ```
 
@@ -146,8 +150,8 @@ public class KafkaConfig {
         Map<String, Object> props = new HashMap<>();
         // props.put(..., ...);
 
-        return new DefaultKafkaConsumerFactory<>(props, 
-            new StringDeserializer(), 
+        return new DefaultKafkaConsumerFactory<>(props,
+            new StringDeserializer(),
             new KafkaProtobufDeserializer<>(MyValue.parser()));
     }
 }

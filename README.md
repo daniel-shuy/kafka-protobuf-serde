@@ -39,7 +39,7 @@ Optionally, you may also override the `kafka-clients` dependency version with th
 
 ```xml
 <properties>
-    <kafka.version>2.3.0</kafka.version>
+    <kafka.version>2.3.1</kafka.version>
 </properties>
 ```
 

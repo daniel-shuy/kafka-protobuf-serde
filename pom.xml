@@ -200,7 +200,7 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <name>kafka-protobuf-serde</name>
     <description>Serializer/Deserializer for Kafka to serialize/deserialize Protocol Buffers messages</description>
     <url>https://github.com/daniel-shuy/kafka-protobuf-serde</url>
@@ -218,7 +218,7 @@
             <url>https://github.com/daniel-shuy</url>
         </developer>
     </developers>
-    
+
     <scm>
         <connection>scm:git:git://github.com/daniel-shuy/kafka-protobuf-serde.git</connection>
         <developerConnection>scm:git:https://github.com/daniel-shuy/kafka-protobuf-serde.git</developerConnection>

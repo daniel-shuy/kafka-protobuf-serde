@@ -8,7 +8,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <kafka.version>2.3.1</kafka.version>
+        <kafka.version>2.4.0</kafka.version>
         <protobuf.version>3.11.1</protobuf.version>
         <spring.kafka.version>2.3.4.RELEASE</spring.kafka.version>
 

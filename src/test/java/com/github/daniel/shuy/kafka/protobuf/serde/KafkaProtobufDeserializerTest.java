@@ -7,10 +7,11 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.KafkaException;
 import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.kafka.common.serialization.Deserializer;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.util.VisibleForTesting;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,7 @@ import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.Map;
@@ -33,7 +34,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingQueue;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @EmbeddedKafka(controlledShutdown = true)
 public class KafkaProtobufDeserializerTest {
 
@@ -68,7 +69,8 @@ public class KafkaProtobufDeserializerTest {
     @Autowired
     private KafkaTemplate<byte[], byte[]> template;
 
-    @Test(timeout = 15000)
+    @Test
+    @Timeout(15)
     public void deserializeProto2() {
         Proto2Message message = Proto2Message.newBuilder()
                 .setStr("Hello World")
@@ -79,7 +81,8 @@ public class KafkaProtobufDeserializerTest {
         deserialize(message, Proto2Message.parser());
     }
 
-    @Test(timeout = 15000)
+    @Test
+    @Timeout(15)
     public void deserializeProto3() {
         Proto3Message message = Proto3Message.newBuilder()
                 .setStr("Goodbye World")
@@ -135,9 +138,9 @@ public class KafkaProtobufDeserializerTest {
         }
 
         T key = consumerRecord.key();
-        Assert.assertEquals(key, input);
+        Assertions.assertThat(key).isEqualTo(input);
 
         T value = consumerRecord.value();
-        Assert.assertEquals(value, input);
+        Assertions.assertThat(value).isEqualTo(input);
     }
 }

@@ -11,9 +11,10 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.KafkaException;
 import org.apache.kafka.common.serialization.ByteArrayDeserializer;
 import org.apache.kafka.common.serialization.Serializer;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
@@ -25,7 +26,7 @@ import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Map;
 import java.util.UUID;
@@ -34,14 +35,15 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @EmbeddedKafka(controlledShutdown = true)
 public class KafkaProtobufSerializerTest {
 
     @Autowired
     private EmbeddedKafkaBroker embeddedKafka;
 
-    @Test(timeout = 15000)
+    @Test
+    @Timeout(15)
     public void serializeProto2() throws InvalidProtocolBufferException {
         Proto2Message message = Proto2Message.newBuilder()
                 .setStr("Hello World")
@@ -52,7 +54,8 @@ public class KafkaProtobufSerializerTest {
         serialize(message, Proto2Message.parser());
     }
 
-    @Test(timeout = 15000)
+    @Test
+    @Timeout(15)
     public void serializeProto3() throws InvalidProtocolBufferException {
         Proto3Message message = Proto3Message.newBuilder()
                 .setStr("Goodbye World")
@@ -113,10 +116,10 @@ public class KafkaProtobufSerializerTest {
 
         byte[] outputKeyData = consumerRecord.key();
         T outputKey = parser.parseFrom(outputKeyData);
-        Assert.assertEquals(outputKey, input);
+        Assertions.assertThat(outputKey).isEqualTo(input);
 
         byte[] outputValueData = consumerRecord.value();
         T outputValue = parser.parseFrom(outputValueData);
-        Assert.assertEquals(outputValue, input);
+        Assertions.assertThat(outputValue).isEqualTo(input);
     }
 }

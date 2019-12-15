@@ -31,5 +31,5 @@ jobs:
       run: mvn --batch-mode test
 
     - name: Generate Coveralls Report
-      run: mvn --batch-mode jacoco:report coveralls:report
+      run: mvn --batch-mode jacoco:report coveralls:report -DrepoToken=${{ secrets.COVERALLS_TOKEN }}
       continue-on-error: true

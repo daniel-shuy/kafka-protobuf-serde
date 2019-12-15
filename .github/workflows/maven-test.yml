@@ -9,9 +9,7 @@ on:
 
 jobs:
   build:
-    
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
 
@@ -30,6 +28,7 @@ jobs:
 
     - name: Test with Maven
       run: mvn --batch-mode test
+
     - name: Generate Coveralls Report
       run: mvn --batch-mode jacoco:report coveralls:report
       continue-on-error: true

@@ -1,0 +1,35 @@
+name: Maven Test
+
+on:
+  push:
+    branches-ignore: release/*
+  pull_request:
+  schedule:
+    - cron: 0 0 * * *
+
+jobs:
+  build:
+    
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+
+    - name: Cache Maven dependencies
+      uses: actions/cache@v1.0.3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
+    - name: Test with Maven
+      run: mvn --batch-mode test
+    - name: Generate Coveralls Report
+      run: mvn --batch-mode jacoco:report coveralls:report
+      continue-on-error: true

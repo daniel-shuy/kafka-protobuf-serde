@@ -27,7 +27,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
 
-    - name: Test with Maven
+    - name: Run tests
       run: mvn --batch-mode test
 
     - name: Generate Coveralls Report

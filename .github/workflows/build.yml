@@ -10,10 +10,45 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.event_name != 'schedule'
     steps:
     - name: Checkout with GIT
       uses: actions/checkout@v2
 
+    - name: Set up JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+
+    - name: Cache Maven dependencies
+      uses: actions/cache@v1
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
+    - name: Run tests
+      run: mvn --batch-mode test
+
+    - name: Generate Coveralls Report
+      run: mvn --batch-mode jacoco:report coveralls:report -DrepoToken=${{ secrets.COVERALLS_TOKEN }}
+      continue-on-error: true
+
+  nightly-build:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        branch: [master, develop]
+    steps:
+    - name: Checkout with GIT
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ matrix.branch }}
+
+# TODO: reduce duplication with YAML anchors once supported (see https://github.community/t5/GitHub-Actions/Support-for-YAML-anchors/td-p/30336)
     - name: Set up JDK
       uses: actions/setup-java@v1
       with:

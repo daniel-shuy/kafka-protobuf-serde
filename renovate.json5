@@ -3,6 +3,7 @@
     'config:base',
   ],
   rebaseStalePrs: true,
+  stabilityDays: 1,
   automerge: true,
   major: {
     automerge: false,

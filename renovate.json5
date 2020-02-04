@@ -1,17 +1,19 @@
 {
-  "extends": [
-    "config:base"
+  extends: [
+    'config:base',
   ],
-  "rebaseStalePrs": true,
-  "automerge": true,
-  "major": {
-    "automerge": false
+  rebaseStalePrs: true,
+  automerge: true,
+  major: {
+    automerge: false,
   },
-  "packageRules": [{
-    "packageNames": [
-      "org.apache.kafka:kafka-clients",
-      "com.google.protobuf:protobuf-java"
-    ],
-    "automerge": false
-  }]
+  packageRules: [
+    {
+      packageNames: [
+        'org.apache.kafka:kafka-clients',
+        'com.google.protobuf:protobuf-java',
+      ],
+      automerge: false,
+    },
+  ],
 }

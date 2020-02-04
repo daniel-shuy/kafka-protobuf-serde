@@ -10,6 +10,7 @@
   },
   packageRules: [
     {
+      // disable automerge for dependencies that require documentation update
       packageNames: [
         'org.apache.kafka:kafka-clients',
         'com.google.protobuf:protobuf-java',

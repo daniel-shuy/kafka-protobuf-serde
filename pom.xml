@@ -30,7 +30,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-framework-bom</artifactId>
-                <version>5.2.5.RELEASE</version>
+                <version>5.2.6.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

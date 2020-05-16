@@ -34,7 +34,7 @@ version):
 
 ```xml
 <properties>
-    <protobuf.version>3.11.4</protobuf.version>
+    <protobuf.version>3.12.0</protobuf.version>
 </properties>
 ```
 

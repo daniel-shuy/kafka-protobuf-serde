@@ -1,0 +1,14 @@
+{
+  "name": "kafka-protobuf-serde",
+  "scripts": {
+    "renovate-config-validator": "renovate-config-validator"
+  },
+  "devDependencies": {
+    "renovate": "21.13.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daniel-shuy/kafka-protobuf-serde.git"
+  },
+  "license": "MIT"
+}

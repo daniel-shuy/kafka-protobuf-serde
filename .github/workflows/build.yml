@@ -36,6 +36,9 @@ jobs:
       - name: renovate-config-validator
         run: npm run renovate-config-validator
 
+      - name: json5-lint
+        run: npm run json5-lint
+
   build:
     runs-on: ubuntu-latest
     if: github.event_name != 'schedule'

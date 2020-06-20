@@ -1,0 +1,35 @@
+env:
+  node: true
+extends:
+  - "eslint:recommended"
+rules:
+  array-bracket-newline:
+    - error
+    - always
+  array-element-newline: error
+  comma-dangle:
+    - error
+    - always
+  comma-style: error
+  eol-last: error
+  indent:
+    - error
+    - 2
+  key-spacing: error
+  multiline-comment-style:
+    - error
+    - bare-block
+  no-multiple-empty-lines: error
+  no-trailing-spaces: error
+  object-curly-newline:
+    - error
+    - always
+  object-property-newline: error
+  quotes:
+    - error
+    - single
+  semi:
+    - error
+    - never
+plugins:
+  - json5

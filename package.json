@@ -1,0 +1,17 @@
+{
+  "name": "kafka-protobuf-serde",
+  "scripts": {
+    "json5-lint": "eslint . --ext json5",
+    "renovate-config-validator": "renovate-config-validator"
+  },
+  "devDependencies": {
+    "eslint": "7.3.0",
+    "eslint-plugin-json5": "0.1.1",
+    "renovate": "21.13.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daniel-shuy/kafka-protobuf-serde.git"
+  },
+  "license": "MIT"
+}

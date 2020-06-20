@@ -2,24 +2,13 @@
   extends: [
     'config:base',
   ],
-  rebaseStalePrs: true,
+  rebaseWhen: 'behind-base-branch',
   stabilityDays: 1,
   automerge: true,
   major: {
     automerge: false,
   },
   packageRules: [
-    {
-      /*
-        jackson-bom does not follow any standard version schemes,
-        and instead uses x.x.x for releases and x.x.x.<build_date> or x.x.x.prx for pre-releases.
-        TODO: Remove after https://github.com/FasterXML/jackson-bom/issues/31 is fixed
-      */
-      packageNames: [
-        'com.fasterxml.jackson:jackson-bom',
-      ],
-      versionScheme: 'regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)([-.](?<prerelease>.*))?$',
-    },
     {
       // disable automerge for dependencies that require documentation update
       packageNames: [

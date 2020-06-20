@@ -8,6 +8,37 @@ on:
     - cron: 0 0 * * *
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout with GIT
+        uses: actions/checkout@v2
+
+      - name: Cache NPM
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 13
+
+      - name: Update NPM
+        run: npm install --global npm@latest
+
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: renovate-config-validator
+        run: npm run renovate-config-validator
+
+      - name: json5-lint
+        run: npm run json5-lint
+
   build:
     runs-on: ubuntu-latest
     if: github.event_name != 'schedule'

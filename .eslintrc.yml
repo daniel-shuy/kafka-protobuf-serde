@@ -27,7 +27,7 @@ rules:
   object-property-newline: error
   quotes:
     - error
-    - single
+    - double
   semi:
     - error
     - never

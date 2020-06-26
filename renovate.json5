@@ -1,9 +1,11 @@
 {
   extends: [
-    'config:base',
+    "config:base",
   ],
-  rebaseWhen: 'behind-base-branch',
+  rebaseWhen: "behind-base-branch",
   stabilityDays: 1,
+  prCreation: "not-pending",
+  masterIssue: true,
   automerge: true,
   major: {
     automerge: false,
@@ -12,8 +14,8 @@
     {
       // disable automerge for dependencies that require documentation update
       packageNames: [
-        'org.apache.kafka:kafka-clients',
-        'com.google.protobuf:protobuf-java',
+        "org.apache.kafka:kafka-clients",
+        "com.google.protobuf:protobuf-java",
       ],
       automerge: false,
     },

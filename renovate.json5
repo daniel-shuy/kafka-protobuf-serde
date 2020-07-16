@@ -5,7 +5,7 @@
   rebaseWhen: "behind-base-branch",
   stabilityDays: 1,
   prCreation: "not-pending",
-  masterIssue: true,
+  dependencyDashboard: true,
   automerge: true,
   major: {
     automerge: false,

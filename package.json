@@ -7,7 +7,7 @@
   "devDependencies": {
     "eslint": "7.5.0",
     "eslint-plugin-json5": "0.1.1",
-    "renovate": "21.31.1"
+    "renovate": "21.33.15"
   },
   "repository": {
     "type": "git",

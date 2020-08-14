@@ -3,7 +3,6 @@
     "config:base",
   ],
   rebaseWhen: "behind-base-branch",
-  stabilityDays: 1,
   prCreation: "not-pending",
   dependencyDashboard: true,
   automerge: true,

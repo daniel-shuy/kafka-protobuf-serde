@@ -17,6 +17,9 @@
         "com.google.protobuf:protobuf-java",
       ],
       automerge: false,
+      prBodyNotes: [
+        ":warning: README.md must be updated manually",
+      ],
     },
   ],
 }

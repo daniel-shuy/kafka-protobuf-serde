@@ -21,5 +21,15 @@
         ":warning: README.md must be updated manually",
       ],
     },
+    {
+      /*
+         Jackson creates releases before publishing to Maven Central.
+         Workaround: Delay PR creation so that build doesn't fail
+      */
+      packageNames: [
+        "com.fasterxml.jackson:jackson-bom",
+      ],
+      stabilityDays: 1,
+    },
   ],
 }

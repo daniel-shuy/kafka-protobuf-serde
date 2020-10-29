@@ -1,0 +1,10 @@
+version: 2.1
+
+orbs:
+  renovate: daniel-shuy/renovate@dev:b74cc8c
+
+workflows:
+  lint:
+    jobs:
+      - renovate/validate-config
+        

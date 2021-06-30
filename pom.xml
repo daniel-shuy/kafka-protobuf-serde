@@ -213,7 +213,7 @@
     <scm>
         <connection>scm:git:git://github.com/daniel-shuy/kafka-protobuf-serde.git</connection>
         <developerConnection>scm:git:https://github.com/daniel-shuy/kafka-protobuf-serde.git</developerConnection>
-        <url>https://github.com/daniel-shuy/kafka-protobuf-serde.git</url>
+        <url>https://github.com/daniel-shuy/kafka-protobuf-serde</url>
         <tag>HEAD</tag>
     </scm>
     <distributionManagement>

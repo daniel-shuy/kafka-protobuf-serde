@@ -28,23 +28,24 @@ Add the following to your Maven dependency list:
 </dependency>
 ```
 
-Override the `protobuf.version` property with the version of Protobuf you wish
-to use (**WARNING:** do not directly override the `protobuf-java` dependency
-version):
+Override the `protobuf-java` dependency with the version of Protobuf you wish to use:
 
 ```xml
-<properties>
-    <protobuf.version>3.13.0</protobuf.version>
-</properties>
+<dependency>
+    <groupId>com.google.protobuf</groupId>
+    <artifactId>protobuf-java</artifactId>
+    <version>3.13.0</version>
+</dependency>
 ```
 
-Optionally, you may also override the `kafka-clients` dependency version with
-the version of Kafka you wish to use:
+Override the `kafka-clients` dependency version with the version of Kafka you wish to use:
 
 ```xml
-<properties>
-    <kafka.version>2.3.1</kafka.version>
-</properties>
+<dependency>
+    <groupId>org.apache.kafka</groupId>
+    <artifactId>kafka-clients</artifactId>
+    <version>2.5.1</version>
+</dependency>
 ```
 
 ### Kafka Producer

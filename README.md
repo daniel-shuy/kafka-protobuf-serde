@@ -24,7 +24,7 @@ Add the following to your Maven dependency list:
 <dependency>
     <groupId>com.github.daniel-shuy</groupId>
     <artifactId>kafka-protobuf-serde</artifactId>
-    <version>2.2.0</version>
+    <version>${kafka-protobuf-serde.version}</version>
 </dependency>
 ```
 
@@ -34,7 +34,7 @@ Override the `protobuf-java` dependency with the version of Protobuf you wish to
 <dependency>
     <groupId>com.google.protobuf</groupId>
     <artifactId>protobuf-java</artifactId>
-    <version>3.13.0</version>
+    <version>${protobuf.version}</version>
 </dependency>
 ```
 
@@ -44,7 +44,7 @@ Override the `kafka-clients` dependency version with the version of Kafka you wi
 <dependency>
     <groupId>org.apache.kafka</groupId>
     <artifactId>kafka-clients</artifactId>
-    <version>2.5.1</version>
+    <version>${kafka.version}</version>
 </dependency>
 ```
 

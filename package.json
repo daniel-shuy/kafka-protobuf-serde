@@ -5,7 +5,7 @@
     "renovate-config-validator": "renovate-config-validator"
   },
   "devDependencies": {
-    "eslint": "7.12.1",
+    "eslint": "7.32.0",
     "eslint-plugin-json5": "0.1.4",
     "renovate": "23.66.1"
   },

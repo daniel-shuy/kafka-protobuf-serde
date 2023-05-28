@@ -6,7 +6,7 @@
   },
   "devDependencies": {
     "eslint": "7.12.1",
-    "eslint-plugin-json5": "0.1.1",
+    "eslint-plugin-json5": "0.1.4",
     "renovate": "23.66.1"
   },
   "repository": {

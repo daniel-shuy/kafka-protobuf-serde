@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout with GIT
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Cache NPM
         uses: actions/cache@v2
@@ -44,7 +44,7 @@ jobs:
     if: github.event_name != 'schedule'
     steps:
     - name: Checkout with GIT
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up JDK
       uses: actions/setup-java@v1
@@ -75,7 +75,7 @@ jobs:
         branch: [master, develop]
     steps:
     - name: Checkout with GIT
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         ref: ${{ matrix.branch }}
 

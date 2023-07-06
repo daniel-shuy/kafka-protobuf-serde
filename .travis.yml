@@ -1,7 +1,7 @@
 language: java
 
-# Ubuntu Xenial (https://docs.travis-ci.com/user/reference/xenial/)
-dist: xenial
+# Ubuntu Bionic (https://docs.travis-ci.com/user/reference/bionic/)
+dist: bionic
 
 jdk: openjdk11
 
@@ -13,6 +13,10 @@ jobs:
       after_success: mvn --batch-mode jacoco:report coveralls:report
     - stage: release
       if: (branch =~ /^release\/.*$/)
+      addons:
+        apt:
+          packages:
+            - git-flow
       env:
         - GIT_USERNAME=daniel-shuy
         # GIT_PASSWORD
@@ -30,11 +34,6 @@ jobs:
         - RELEASE_VERSION=`echo $TRAVIS_BRANCH | sed --regexp-extended 's/^release\/(.*)$/\1/'`
         - GIT_MERGE_AUTOEDIT=no
       before_install:
-        # git-flow AVH (https://github.com/petervanderdoes/gitflow-avh/wiki/Installing-on-Linux,-Unix,-etc.#user-content-ubuntu)
-        - sudo add-apt-repository --yes ppa:pdoes/gitflow-avh
-        # use add-apt-repository --update in Ubuntu 17+ (Artful)
-        - sudo apt-get update
-        - sudo apt-get --yes install git-flow
         # https://docs.travis-ci.com/user/encrypting-files/#encrypting-multiple-files
         - openssl aes-256-cbc -K $encrypted_4c43ee4cec95_key -iv $encrypted_4c43ee4cec95_iv -in travis/secrets.tar.enc -out travis/secrets.tar -d
         - tar xv -C travis -f travis/secrets.tar
